@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html>
+<title>Samuel Green Webpage</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif;}
+body, html {
+  height: 100%;
+  color: #000;  /*this changes the text colour*/
+  line-height: 1.8;
+}
+
+/* Create a Parallax Effect */
+.bgimg-1, .bgimg-2, .bgimg-3 {
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+/* First image (Logo. Full height) */
+.bgimg-1 {
+  background-image: url('Images/bubblenebula.jpg');
+  min-height: 35%;
+}
+
+/* Second image (Portfolio) */
+.bgimg-2 {
+  background-image: url("Images/bubblenebula.jpg");
+  min-height: 400px;
+}
+
+/* Third image (Contact) */
+.bgimg-3 {
+  background-image: url("Images/bubblenebula.jpg");
+  min-height: 400px;
+}
+
+.w3-wide {letter-spacing: 10px;}
+.w3-hover-opacity {cursor: pointer;}
+
+/* Turn off parallax scrolling for tablets and phones */
+@media only screen and (max-device-width: 1600px) {
+  .bgimg-1, .bgimg-2, .bgimg-3 {
+    background-attachment: scroll;
+    min-height: 400px;
+  }
+}
+</style>
+<body>
+
+  <!-- Navbar (sit on top) -->
+  <div class="w3-top">
+    <div class="w3-bar" id="myNavbar">
+      <a class="w3-bar-item w3-button w3-hover-black w3-hide-medium w3-hide-large w3-right" href="javascript:void(0);" onclick="toggleFunction()" title="Toggle Navigation Menu">
+        <i class="fa fa-bars"></i>
+      </a>
+      <a href="index.html" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-user"></i> ABOUT</a>
+      <a href="research.html" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-th"></i> RESEARCH</a>
+      <a href="blog.html" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-wrench" aria-hidden="true"></i> PROJECTS</a>
+    </div>
+
+    <!-- Navbar on small screens -->
+    <div id="navDemo" class="w3-bar-block w3-white w3-hide w3-hide-large w3-hide-medium">
+      <a href="index.html" class="w3-bar-item w3-button" onclick="toggleFunction()">ABOUT</a>
+      <a href="research.html" class="w3-bar-item w3-button" onclick="toggleFunction()">RESEARCH</a>
+      <a href="blog.html" class="w3-bar-item w3-button" onclick="toggleFunction()">PROJECTS</a>
+    </div>
+  </div>
+
+  <!-- First Parallax Image with Logo Text -->
+  <div class="bgimg-1 w3-display-container" id="home">  <!-- add opacity: w3-opacity-min -->
+    <div class="w3-display-middle" style="white-space:nowrap">
+      <span class="w3-xxlarge w3-text-white w3-wide"><b>RESEARCH</b></span>
+    </div>
+  </div>
+
+<!-- Add a background color and large text to the whole page -->
+<div class="w3-sand w3-large">
+
+<div class="w3-container w3-card w3-white w3-margin-bottom w3-center">
+   <h2 class="w3-text-indigo w3-padding-16"><i class="fa fa-fw w3-margin-center w3-xxlarge w3-text-indigo"></i><b>Current Research:</b></h2>
+</div>
+
+<!-- Page Container -->
+<div class="w3-content w3-margin-top w3-padding-48" style="max-width:1400px;">
+
+  <!-- The Grid -->
+  <div class="w3-row-padding">
+
+    <!-- Left Column -->
+    <div class="w3-twothird">
+
+      <div class="w3-container w3-card w3-white w3-margin-bottom">
+        <h2 class="w3-text-blue w3-padding-16"><i class="fa fa-star fa-fw w3-margin-right w3-xxlarge w3-text-blue"></i><b>Research in Stellar Wind Bubbles around Massive Stars</b></h2>
+        <div class="w3-container">
+          <p> The main focus of my current research is on multidimensional simulations of stellar wind bubbles around massive stars. Python programming and visualisation of scientific data is a major part of this research.</p>
+          <p> As stellar wind expands out from a star, its kinetic energy is converted to thermal energy when it passes through the reverse/termination shock. A low density bubble is created from this interaction, expanding with time. These stellar wind bubbles are difficult to detect but can be observed through their emission at x-ray, optical and radio wavelengths. Only our nearest star (the Sun) and stars with the strongest winds (Wolf-Rayet stars) have wind bubbles that have been directly detected through radiation emitted by the wind bubble. The Bubble Nebula is unique in that it is a clearly observed circular bubble around a main-sequence O star.</p>
+          <p> Quantitative modelling of these wind bubbles requires multi-dimensional simulations. By comparing the models to observed systems, we can learn about the mixing between hot gas and ISM. This allows us to investigate the boundary layer between the wind bubble and the interstellar gas, and to learn how efficiently energy and matter mix across this boundary.</p>
+          <hr>
+        </div>
+      </div>
+
+      <div class="w3-container w3-card w3-white w3-margin-bottom">
+        <h2 class="w3-text-blue w3-padding-16"><i class="fa fa-certificate fa-fw w3-margin-right w3-xxlarge w3-text-blue"></i><b>Computational Astrophysics Research Group</b></h2>
+        <div class="w3-container">
+          <p> As I joined <a href="https://www.dias.ie" target="_blank">DIAS</a> in 2016 as a PhD student, I began working in the computational astrophysics research group set up by <a href="https://homepages.dias.ie/jmackey/index.html" target="_blank">Jonathan Mackey</a>. This group focuses on the evolution and explosion of massive stars. </p>
+        </div>
+        <h2 class="w3-text-blue"><i class="fa fa-certificate fa-fw w3-margin-right w3-xxlarge w3-text-blue"></i>Group Members:</h2>
+        <div class="w3-container">
+          <table class="w3-table w3-hoverable">
+          <tr>
+          <td><b><a href="https://homepages.dias.ie/jmackey/index.html">Jonathan Mackey</a></b></br>(founder):</td>
+          <td>
+          Royal Society - Science Foundation Ireland University Research Fellow, working in computational astrophysics, especially related to massive stars and supernovae. Developed the grid-based fluid dynamics code <a href="https://homepages.dias.ie/jmackey/pion.html">PION</a> for simulating the circumstellar medium around massive stars.
+          </td>
+          </tr>
+          <tr>
+          <td><b><a href="http://star.arm.ac.uk/~eh/">Erin Higgins</a></b>:</td>
+          <td>PhD student of <a href="http://star.arm.ac.uk/~jsv/">Jorick Vink</a> at <a href="http://star.arm.ac.uk/">Armagh Observatory and Planetarium</a> since September 2016, and registered at <a href="https://star.pst.qub.ac.uk">Queen's University Belfast</a>, co-supervised by JM. Working on stellar evolution calculations of massive stars in the Small Magellanic Cloud, and on modelling the nebulae they produce.
+          Working on stellar evolution calculations of massive stars in the Small Magellanic Cloud, and on modelling the nebulae they produce.
+          </td>
+          </tr>
+          <tr>
+          <td><b><a href="https://www.dias.ie/2017/10/17/maria-moutzouri/">Maria Moutzouri</a></b>:</td>
+          <td>PhD student at <a href="https://www.dias.ie/cp/astro/">DIAS</a> since October 2017 working on simulations and observations of non-thermal radio emission from jets and winds. She worked on LOFAR observations of pulsars for her Masters Thesis at the University of Manchester.
+          </td>
+          </tr>
+          </table>
+
+        </div>
+      </div>
+
+    <!-- End Left Column -->
+    </div>
+
+    <!-- Right Column -->
+    <div class="w3-third">
+
+      <div class="w3-white w3-text-black w3-card-4 w3-margin-bottom">
+        <div class="w3-display-container">
+          <img src="Images/Zeta.jpg" style="width:100%" alt="Avatar">
+          <div class="w3-container">
+             <p>Zeta Ophiuchi is a runaway star moving through the diffuse ISM. Its wind makes a bow shock seen in optical images (Gull & Sofia, 1978), and infrared images. Bow shocks are among the best evidence of the effects of stellar winds. [Image Credit: NASA/JPL-Caltech]</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="w3-white w3-text-black w3-card-4">
+        <div class="w3-display-container">
+          <img src="Images/bubblenebula.jpg" style="width:100%" alt="Avatar">
+          <div class="w3-container">
+             <p>Hubble optical image of NGC 7635 (Bubble Nebula). [Credit: NASA/ESA/Hubble Heritage Team]</p>
+          </div>
+        </div>
+      </div>
+
+    <!-- End Right Column -->
+    </div>
+
+  <!-- End Grid -->
+  </div>
+
+  <!-- End Page Container -->
+</div>
+
+<div class="w3-container w3-card w3-white w3-margin-bottom w3-center">
+   <h2 class="w3-text-indigo w3-padding-16"><i class="fa fa-fw w3-margin-center w3-xxlarge w3-text-blue"></i><b>Past Research Projects:</b></h2>
+</div>
+
+<!-- Page Container -->
+<div class="w3-content w3-margin-top w3-padding-48" style="max-width:1400px;">
+
+  <!-- The Grid -->
+  <div class="w3-row-padding">
+
+    <!-- Left Column -->
+    <div class="w3-third">
+
+      <div class="w3-white w3-text-black w3-card-4 w3-margin-bottom">
+        <div class="w3-display-container">
+          <img src="Images/weearchie.png" style="width:100%" alt="Avatar">
+          <div class="w3-container">
+             <p>Wee-Archie is a small 64 core cluster made out of 18 Raspberry Pis.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="w3-white w3-text-black w3-card-4 w3-margin-bottom">
+        <div class="w3-display-container">
+          <img src="Images/archer.png" style="width:100%" alt="Avatar">
+        </div>
+      </div>
+
+      <div class="w3-white w3-text-black w3-card-4 w3-margin-bottom">
+        <div class="w3-display-container">
+          <img src="Images/weather_sim.png" style="width:100%" alt="Avatar">
+          <div class="w3-container">
+             <p>The visualisation generated from the outreach demo showing the formation of the clouds and rain over land and sea (top plot). The middle plot shows the temperature profile of the cloud and rain system and the bottom plot shows the pressure profiles of the system.</p>
+          </div>
+        </div>
+      </div>
+
+    <!-- End Left Column -->
+    </div>
+
+    <!-- Right Column -->
+    <div class="w3-twothird">
+
+      <div class="w3-container w3-card w3-white w3-margin-bottom">
+        <h2 class="w3-text-blue w3-padding-16"><i class="fa fa-cloud fa-fw w3-margin-right w3-xxlarge w3-text-blue"></i><b>Interactive Weather Forecasting on Supercomputers as a Tool for Education</b></h2>
+        <div class="w3-container">
+          <p> An interactive weather forecasting demo is a useful tool to allow the public, undergraduates, and even some scientists to appreciate and understand how their decisions on the initial conditions of a simulation can have an impact on the simulation’s outcome. I spent 2 months working on this demo at EPCC in the University of Edinburgh as part of PRACE's Summer of HPC 2017 program.</p>
+          <p> MONC (Met Office NERC Cloud model) is a new atmospheric model developed in conjunction with the UK Met Office. It is being used by the scientific community to simulate the atmosphere, clouds and turbulent flows. It is a highly scalable Large Eddy Simulation (LES) model that can simulate the atmosphere at high resolution, with an accuracy of up to 10s of meters. The model was built to run on thousands of cores on supercomputers like ARCHER, but can also run on smaller systems like Wee-Archie (a mini supercomputer EPCC built out of Raspberry Pis.</p>
+          <p> Clouds are rendered using filters that create a surface around points in the atmosphere that have a certain amount of cloud mass. Rain is set-up as a separate quantity and the points in the atmosphere that contain rain mass are rendered as blue spheres. To distinguish between the different amount of rain mass at each point, transparency and colouring are applied from light to dark blue. Most of the rain begins within the clouds (similar to clouds in our atmosphere) so you can only see it when it starts raining. This visualisation is meteorologically accurate and we can see how clouds form and move and how rain will start to accumulate around the clouds and then fall. Also, land (brown) and sea (blue) have been rendered to give a landscape for the weather to evolve over. An animation has also been included which simulates the effects of rainfall on crops. If enough rain falls, crops will grow out of the land, but too much rain will kill the crops. A decomposition grid is also rendered in the simulation to show how the atmosphere is split up amongst the cores.</p>
+          <p>We are also able to see the temperature profile of a cloud and rain system. This gives us a whole new outlook into the temperature of different parts of the atmosphere as the clouds form and the rain begins to fall. As the temperature profile evolves with time, you can see that the heat in the atmosphere is undergoing some turbulence. We can also see the pressure profile of the system too. Throughout the course of the simulations I ran, nothing much seems to change with the pressure over time. However, with other simulation setups (for example a mountainous terrain) the pressure will be more interesting to visualise. A useful feature of this is that we can switch between the temperature, ’real’ world, and pressure view to see what parts of the atmosphere and clouds are associated with high or low temperatures and pressures. MONC was already developed to calculate the
+temperature and pressure of the simulation but the data values were not
+set up to be passed into the outreach demo. This data was then set-up as another separate quantity and the points in the atmosphere that contain temperature/pressure mass are rendered as spheres. To distinguish between the high or low temperatures or pressures at each point, colouring is applied from blue to red (blue being low values and red being high). The addition of these two views is a critically important part of the visualisation as it provides the user with extra information on how the weather is evolving. They add a lot of extra realism to the demo and are more interesting to visualise than the existing real world view.</p>
+          <p>Since this demo is still really only in it’s early stages of development and because of the way it is written and the tools it uses, it is simple to improve and change many aspects of it in the future. Also to set up different versions targeting different audiences. It will be interesting to see how this application will be
+used and what other outreach applications it can inspire.</p>
+          <hr>
+        </div>
+      </div>
+
+    <!-- End Right Column -->
+    </div>
+
+  <!-- End Grid -->
+  </div>
+
+  <!-- End Page Container -->
+</div>
+
+<!-- Page Container -->
+<div class="w3-content w3-margin-top w3-padding-48" style="max-width:1400px;">
+
+  <!-- The Grid -->
+  <div class="w3-row-padding">
+
+    <!-- Left Column -->
+    <div class="w3-twothird">
+
+      <div class="w3-container w3-card w3-white w3-margin-bottom">
+        <h2 class="w3-text-blue w3-padding-16"><i class="fa fa-sun-o fa-fw w3-margin-right w3-xxlarge w3-text-blue"></i><b>New Insights into Solar Sunspots at the Highest Resolution II: Space-Based Observational Analysis</b></h2>
+        <div class="w3-container">
+          <p> As part of my undergraduate studies I completed a full-time research project. This was carried out in the Solar Research Group within Trinity College. My project focused on collecting and analysing data from the AIA (Atmospheric Imaging Assembly) instrument on-board SDO (Solar Dynamics Observatory) using IDL (Interactive Data Language). Supervised by Prof. Peter Gallagher and Eamon Scullion.</p>
+          <p> Active Regions evolve from regions of intense magnetic field concentrated in the photosphere of the Sun’s atmosphere. Sunspots are one example of these more concentrated magnetic regions which form as a result of the buoyant emergence of complex magnetic structures from within the Sun’s interior. These can then produce intense energetic eruptions of solar material called solar flares. The heating mechanism of the outer solar atmosphere remains one of the biggest questions in solar and astrophysics. Accelerated particles and radiation from major solar flare events produce space weather effects such as causing power grid failures, disrupting signals for the global positioning system, television, and telecommunications. Understanding the sources of space weather can help create a way to predict space
+weather. In this project we examine the nature of these eruptions in the Sun’s chromosphere, transition region and corona through space-based observational analysis. Data from the AIA instrument on-board SDO
+was used to examine the active region 11515 which produced a C8.2 flare on the 1st of July 2012.</p>
+          <p> The powerful flare was very well observed, via imaging spectroscopy from multiple space-based observatories in the (E)UV and X-ray range of the electromagnetic spectrum. A regularized inversion method (Hannah and Kontar, 2012) was then used to determine the differential emission measure (DEM) during this flare event. Here we show that a delta spot is coincident with the location of where the flare energy is dissipated. During the event the material of the lower solar atmosphere (as a result of an injected electron beam caused by
+the flare) contributed to the largest emission measure in the highest detectable temperature range by this method with the available instruments. This study revealed the relationship between the heating rates at the source of high energy deposition in the solar atmosphere
+and the associated formation of post-flare arcades (the building blocks of the solar active regions) as a result of evaporation processes.</p>
+          <hr>
+        </div>
+      </div>
+
+    <!-- End Left Column -->
+    </div>
+
+    <!-- Right Column -->
+    <div class="w3-third">
+
+      <div class="w3-white w3-text-black w3-card-4 w3-margin-bottom">
+        <div class="w3-display-container">
+          <img src="Images/flare.png" style="width:100%" alt="Avatar">
+          <div class="w3-container">
+             <p>The full disk image of the sun in six different coronal wavelengths to give an overview of the structure of the Sun at different temperature bands. Where the pink box shows the region viewed by CRISP instrument at 1-m Swedish Solar Telescope.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="w3-white w3-text-black w3-card-4 w3-margin-bottom">
+        <div class="w3-display-container">
+          <img src="Images/dem.png" style="width:100%" alt="Avatar">
+          <div class="w3-container">
+             <p>Emission measure at a temperature of 6.3 MK. This is to show the flare evolution in DEM and that the hottest this DEM code can detect is 6.3 MK and the amount of emission at this temperature. The colour table shows roughly how much emission there is at each pixel
+in the FOV.</p>
+          </div>
+        </div>
+      </div>
+
+    <!-- End Right Column -->
+    </div>
+
+  <!-- End Grid -->
+  </div>
+
+  <!-- End Page Container -->
+</div>
+
+<!-- Footer -->
+<footer class="w3-container w3-light-blue w3-padding-12 w3-margin-top">
+      <p class="w3-right">Made with <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
+      <p class="w3-left">&copy; Samuel Green 2020</p>
+    </footer>
+
+</div>
+
+<script>
+function nav_dropdown(item) {
+    var x = document.getElementById(item);
+    if (x.className.indexOf("w3-show") == -1) {
+        x.className += " w3-show";
+    } else {
+        x.className = x.className.replace(" w3-show", "");
+    }
+}
+</script>
+
+</body>
+</html>

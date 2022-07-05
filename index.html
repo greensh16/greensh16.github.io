@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+<title>Samuel Green Webpage</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif;}
+body, html {
+  height: 100%;
+  color: #000;  /*this changes the text colour*/
+  line-height: 1.8;
+}
+
+/* Create a Parallax Effect */
+.bgimg-1, .bgimg-2, .bgimg-3 {
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+/* First image (Logo. Full height) */
+.bgimg-1 {
+  background-image: url('Images/bubblenebula.jpg');
+  min-height: 35%;
+}
+
+/* Second image (Portfolio) */
+.bgimg-2 {
+  background-image: url("Images/bubblenebula.jpg");
+  min-height: 400px;
+}
+
+/* Third image (Contact) */
+.bgimg-3 {
+  background-image: url("Images/bubblenebula.jpg");
+  min-height: 400px;
+}
+
+.w3-wide {letter-spacing: 10px;}
+.w3-hover-opacity {cursor: pointer;}
+
+/* Turn off parallax scrolling for tablets and phones */
+@media only screen and (max-device-width: 1600px) {
+  .bgimg-1, .bgimg-2, .bgimg-3 {
+    background-attachment: scroll;
+    min-height: 400px;
+  }
+}
+</style>
+<body>
+
+<!-- Navbar (sit on top) -->
+<div class="w3-top">
+  <div class="w3-bar" id="myNavbar">
+    <a class="w3-bar-item w3-button w3-hover-black w3-hide-medium w3-hide-large w3-right" href="javascript:void(0);" onclick="toggleFunction()" title="Toggle Navigation Menu">
+      <i class="fa fa-bars"></i>
+    </a>
+    <a href="index.html" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-user"></i> ABOUT</a>
+    <a href="research.html" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-th"></i> RESEARCH</a>
+    <a href="blog.html" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-wrench" aria-hidden="true"></i> PROJECTS</a>
+  </div>
+
+  <!-- Navbar on small screens -->
+  <div id="navDemo" class="w3-bar-block w3-white w3-hide w3-hide-large w3-hide-medium">
+    <a href="index.html" class="w3-bar-item w3-button" onclick="toggleFunction()">ABOUT</a>
+    <a href="research.html" class="w3-bar-item w3-button" onclick="toggleFunction()">RESEARCH</a>
+    <a href="blog.html" class="w3-bar-item w3-button" onclick="toggleFunction()">PROJECTS</a>
+  </div>
+</div>
+
+<!-- First Parallax Image with Logo Text -->
+<div class="bgimg-1 w3-display-container" id="home">  <!-- add opacity: w3-opacity-min -->
+  <div class="w3-display-middle" style="white-space:nowrap">
+    <span class="w3-xxlarge w3-text-white w3-wide"><b>About Me</b></span>
+  </div>
+</div>
+
+<!-- Container (About Section) -->
+<div class="w3-content w3-container w3-padding-64" id="about">
+  <p>Hello and welcome! I am a PhD research student working in the <a href="https://homepages.dias.ie/jmackey/research.html#group" target="_blank" style="color:#3288E1;">Computational Astrophysics
+    Research Group</a> at the Dublin Institute for Advanced Studies (<a href="https://www.dias.ie" target="_blank" style="color:#3288E1;">DIAS</a>) in Ireland. I was lucky to receive a DIAS Hamilton Scholarship to carry out my research and have been registered as
+    a student in  <a href="https://www.ucd.ie" target="_blank"  style="color:#3288E1;"> University College Dublin</a> (UCD) for the course of my PhD. </p>
+  <div class="w3-row">
+    <div class="w3-col m6 w3-center w3-padding-large">
+      <img src="Images/sam.jpg" class="w3-round w3-image" alt="Photo of Me" width="500" height="333">
+    </div>
+
+    <!-- Hide this text on small devices -->
+    <div class="w3-col m6 w3-hide-small w3-padding-large">
+      <p>My research currently focuses on multidimensional simulations of stellar wind bubbles from massive stars. I am also actively involved in the public outreach
+        at <a href="https://www.dunsink.dias.ie" target="_blank" style="color:#3288E1;">DIAS Dunsink Observatory</a> and a number of the projects that are running there.</p>
+
+      <h3 class="w3-center"> Contact</h3>
+      <i class="fa fa-map-marker fa-fw w3-hover-text-black w3-xlarge w3-margin-right"></i> Dublin, Ireland<br>
+      <i class="fa fa-envelope fa-fw w3-hover-text-black w3-xlarge w3-margin-right"></i> Work Email: green@cp.dias.ie<br>
+      <i class="fa fa-twitter w3-hover-opacity w3-xlarge w3-margin-right"></i><a href="https://twitter.com/sam_green93" class="twitter-follow-button" data-show-count="true">Follow @sam_green93</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script><br>
+      <i class="fa fa-linkedin w3-hover-opacity w3-xlarge w3-margin-right"></i><a href="https://www.linkedin.com/in/samgreen-dias" target="_blank" style="color:#3288E1;">          Linkedin Profile</a><br>
+
+      <h3 class="w3-center"> </h3>
+      <p><b>Please click <a href="cv.html" target="_blank">here</a> for my CV</b>  </p>
+    </div>
+  </div>
+</div>
+
+<!-- Second Parallax Image with Portfolio Text -->
+<div class="bgimg-2 w3-display-container w3-opacity-min">
+  <div class="w3-display-middle">
+    <span class="w3-xxlarge w3-text-white w3-wide"><b>Social Media</b></span>
+  </div>
+</div>
+
+<!-- Container (Portfolio Section) -->
+<div class="w3-content w3-container w3-padding-64" id="portfolio">
+
+  <!-- Responsive Grid. Four columns on tablets, laptops and desktops. Will stack on mobile devices/small screens (100% width) -->
+  <div class="w3-row-padding w3-center">
+    <!--  Column -->
+
+  <div class="w3-half w3-container w3-white" style="min-height:600px">
+  <div class="w3-card-4 w3-margin-right">
+    <blockquote>
+    <a class="twitter-timeline" data-height="550" href="https://twitter.com/sam_green93">Tweets by sam_green93</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+    </blockquote>
+  </div> <!-- end of card -->
+  </div> <!-- End of column -->
+
+  <div class="w3-half w3-container w3-white" style="min-height:600px">
+  <div class="w3-card-4 w3-margin-right">
+    <blockquote>
+    <a class="twitter-timeline" data-height="550" href="https://twitter.com/DIASDunsink">Tweets by DIASDunsink</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+    </blockquote>
+  </div> <!-- end of card -->
+  </div> <!-- End of column -->
+  </div>
+</div>
+
+<!-- Modal for full size images on click-->
+<div id="modal01" class="w3-modal w3-black" onclick="this.style.display='none'">
+  <span class="w3-button w3-large w3-black w3-display-topright" title="Close Modal Image"><i class="fa fa-remove"></i></span>
+  <div class="w3-modal-content w3-animate-zoom w3-center w3-transparent w3-padding-64">
+    <img id="img01" class="w3-image">
+    <p id="caption" class="w3-opacity w3-large"></p>
+  </div>
+</div>
+
+
+<!-- Footer -->
+<footer class="w3-container w3-light-blue w3-padding-12 w3-margin-top">
+      <p class="w3-right">Made with <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
+      <p class="w3-left">&copy; Samuel Green 2020</p>
+</footer>
+
+<script>
+// Modal Image Gallery
+function onClick(element) {
+  document.getElementById("img01").src = element.src;
+  document.getElementById("modal01").style.display = "block";
+  var captionText = document.getElementById("caption");
+  captionText.innerHTML = element.alt;
+}
+
+// Change style of navbar on scroll
+window.onscroll = function() {myFunction()};
+function myFunction() {
+    var navbar = document.getElementById("myNavbar");
+    if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+        navbar.className = "w3-bar" + " w3-card" + " w3-animate-top" + " w3-white";
+    } else {
+        navbar.className = navbar.className.replace(" w3-card w3-animate-top w3-white", "");
+    }
+}
+
+// Used to toggle the menu on small screens when clicking on the menu button
+function toggleFunction() {
+    var x = document.getElementById("navDemo");
+    if (x.className.indexOf("w3-show") == -1) {
+        x.className += " w3-show";
+    } else {
+        x.className = x.className.replace(" w3-show", "");
+    }
+}
+</script>
+
+</body>
+</html>
