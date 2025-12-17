@@ -1,0 +1,74 @@
+---
+import FeilianDocsLayout from "@/layouts/FeilianDocsLayout.astro";
+---
+
+<FeilianDocsLayout title="Overview" currentPage="/docs/feilian-3d">
+	<h1>Feilian-3D</h1>
+	
+	<p class="text-xl">
+		<strong>Feilian-3D</strong> is a deep learning project for 3D wind speed field prediction using U-Net architecture, optimized for HPC environments with AMD ROCm GPUs.
+	</p>
+
+	<div class="not-prose my-8">
+		<a 
+			href="https://github.com/greensh16/feilian-3d" 
+			target="_blank"
+			rel="noopener noreferrer"
+			class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-accent-one to-accent-two text-bgColor font-semibold hover:brightness-110 transition-all"
+		>
+			View on GitHub
+		</a>
+	</div>
+
+	<h2>Overview</h2>
+	<p>
+		Feilian-3D leverages deep learning techniques to predict three-dimensional wind speed fields, 
+		making it particularly useful for applications in atmospheric modeling, renewable energy forecasting, 
+		and climate science.
+	</p>
+
+	<h2>Key Features</h2>
+	<ul>
+		<li><strong>3D U-Net Architecture</strong> - Encoder-decoder structure with skip connections optimized for volumetric data</li>
+		<li><strong>AMD ROCm Support</strong> - Optimized for AMD MI250X GPUs with ROCm 6.3.3</li>
+		<li><strong>HPC Ready</strong> - Distributed training with PyTorch DDP and SLURM integration</li>
+		<li><strong>Mixed Precision Training</strong> - Automatic mixed precision for faster training and lower memory usage</li>
+		<li><strong>Physics-Informed Loss</strong> - Gradient loss functions for physical plausibility</li>
+		<li><strong>Flexible Configuration</strong> - Comprehensive config system for experiments and hyperparameter tuning</li>
+	</ul>
+
+	<h2>Documentation Sections</h2>
+	<div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-8 not-prose">
+		<a href="/docs/feilian-3d/installation" class="p-4 rounded-lg border border-color-300 dark:border-color-700 hover:border-accent-one transition-colors">
+			<h3 class="font-semibold text-lg mb-2 text-accent-two">Installation</h3>
+			<p class="text-sm">Setup guide for Setonix HPC and generic Linux systems</p>
+		</a>
+		<a href="/docs/feilian-3d/quickstart" class="p-4 rounded-lg border border-color-300 dark:border-color-700 hover:border-accent-one transition-colors">
+			<h3 class="font-semibold text-lg mb-2 text-accent-two">Quickstart</h3>
+			<p class="text-sm">Get started with training your first model</p>
+		</a>
+		<a href="/docs/feilian-3d/architecture" class="p-4 rounded-lg border border-color-300 dark:border-color-700 hover:border-accent-one transition-colors">
+			<h3 class="font-semibold text-lg mb-2 text-accent-two">Architecture</h3>
+			<p class="text-sm">Deep dive into the 3D U-Net model architecture</p>
+		</a>
+		<a href="/docs/feilian-3d/training" class="p-4 rounded-lg border border-color-300 dark:border-color-700 hover:border-accent-one transition-colors">
+			<h3 class="font-semibold text-lg mb-2 text-accent-two">Training</h3>
+			<p class="text-sm">Distributed training and optimization techniques</p>
+		</a>
+		<a href="/docs/feilian-3d/slurm" class="p-4 rounded-lg border border-color-300 dark:border-color-700 hover:border-accent-one transition-colors">
+			<h3 class="font-semibold text-lg mb-2 text-accent-two">SLURM Configuration</h3>
+			<p class="text-sm">Running jobs on HPC clusters with SLURM</p>
+		</a>
+		<a href="/docs/feilian-3d/api" class="p-4 rounded-lg border border-color-300 dark:border-color-700 hover:border-accent-one transition-colors">
+			<h3 class="font-semibold text-lg mb-2 text-accent-two">API Reference</h3>
+			<p class="text-sm">Complete API documentation for all modules</p>
+		</a>
+	</div>
+
+	<h2>Quick Links</h2>
+	<ul>
+		<li><a href="https://github.com/greensh16/feilian-3d">GitHub Repository</a></li>
+		<li><a href="https://github.com/greensh16/feilian-3d/issues">Report Issues</a></li>
+		<li><a href="/docs/feilian-3d/installation">Get Started</a></li>
+	</ul>
+</FeilianDocsLayout>

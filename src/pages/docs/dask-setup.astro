@@ -1,0 +1,523 @@
+---
+import PageLayout from "@/layouts/Base.astro";
+---
+
+<PageLayout meta={{ title: "dask_setup Documentation" }}>
+	<div class="flex max-w-7xl mx-auto px-4 py-8 gap-8">
+		<!-- Table of Contents Sidebar -->
+		<aside class="hidden lg:block w-64 shrink-0">
+			<nav class="sticky top-20 max-h-[calc(100vh-6rem)] overflow-y-auto">
+				<div class="text-sm space-y-1">
+					<a href="/docs" class="block px-3 py-2 text-accent-one hover:text-accent-two transition-colors">
+						← Back to Docs
+					</a>
+					<div class="border-t border-color-200 dark:border-color-700 my-2"></div>
+					<a href="#overview" class="block px-3 py-2 hover:bg-color-100 dark:hover:bg-color-800 rounded transition-colors">Overview</a>
+					<a href="#installation" class="block px-3 py-2 hover:bg-color-100 dark:hover:bg-color-800 rounded transition-colors">Installation</a>
+					<a href="#quick-start" class="block px-3 py-2 hover:bg-color-100 dark:hover:bg-color-800 rounded transition-colors">Quick Start</a>
+					<a href="#workload-types" class="block px-3 py-2 hover:bg-color-100 dark:hover:bg-color-800 rounded transition-colors">Workload Types</a>
+					<a href="#config-profiles" class="block px-3 py-2 hover:bg-color-100 dark:hover:bg-color-800 rounded transition-colors">Configuration Profiles</a>
+					<a href="#storage" class="block px-3 py-2 hover:bg-color-100 dark:hover:bg-color-800 rounded transition-colors">Storage Intelligence</a>
+					<a href="#memory" class="block px-3 py-2 hover:bg-color-100 dark:hover:bg-color-800 rounded transition-colors">Memory Management</a>
+					<a href="#hpc" class="block px-3 py-2 hover:bg-color-100 dark:hover:bg-color-800 rounded transition-colors">HPC Integration</a>
+					<a href="#usage" class="block px-3 py-2 hover:bg-color-100 dark:hover:bg-color-800 rounded transition-colors">Usage Patterns</a>
+					<a href="#errors" class="block px-3 py-2 hover:bg-color-100 dark:hover:bg-color-800 rounded transition-colors">Error Handling</a>
+					<a href="#cli" class="block px-3 py-2 hover:bg-color-100 dark:hover:bg-color-800 rounded transition-colors">CLI Tools</a>
+					<a href="#recipes" class="block px-3 py-2 hover:bg-color-100 dark:hover:bg-color-800 rounded transition-colors">Recipe Examples</a>
+					<a href="#troubleshooting" class="block px-3 py-2 hover:bg-color-100 dark:hover:bg-color-800 rounded transition-colors">Troubleshooting</a>
+				</div>
+			</nav>
+		</aside>
+
+		<!-- Main Content -->
+		<div class="flex-1 min-w-0">
+		<div class="mb-8 lg:hidden">
+			<a href="/docs" class="text-accent-one hover:text-accent-two transition-colors">
+				← Back to Documentation
+			</a>
+		</div>
+
+		<article class="prose prose-lg dark:prose-invert max-w-none prose-headings:text-accent-two prose-a:text-accent-one prose-a:no-underline hover:prose-a:text-accent-two hover:prose-a:underline" data-pagefind-body>
+			<h1>dask_setup</h1>
+			
+			<div class="not-prose mb-4">
+				<img src="https://github.com/21centuryweather/dask_setup/workflows/CI/badge.svg" alt="CI Status" />
+			</div>
+
+			<p class="lead">
+				A comprehensive <strong>single-node</strong> Dask setup helper designed for <strong>HPC environments</strong> 
+				(especially Gadi), with intelligent defaults for CPU/I/O-bound workloads, advanced configuration management, 
+				storage format optimization, and user-friendly error handling.
+			</p>
+
+			<div class="not-prose my-8">
+				<a 
+					href="https://github.com/21centuryweather/dask_setup" 
+					target="_blank"
+					rel="noopener noreferrer"
+					class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-accent-one to-accent-two text-bgColor font-semibold hover:brightness-110 transition-all"
+				>
+					View on GitHub
+				</a>
+			</div>
+
+			<h2 id="overview">What It Does</h2>
+			<p>
+				<code>dask_setup</code> is a feature-rich wrapper around <code>dask.distributed.LocalCluster</code> + <code>Client</code> 
+				that eliminates trial-and-error and provides expert-level optimization out of the box:
+			</p>
+
+			<ul>
+				<li><strong>Detects resources</strong> automatically from PBS/SLURM/Kubernetes environments</li>
+				<li><strong>Reserves memory</strong> for OS/I/O caches and splits the rest across workers</li>
+				<li><strong>Chooses topology</strong> (process/thread) based on workload type</li>
+				<li><strong>Configures safe spilling</strong> to prevent OOM crashes</li>
+				<li><strong>Pins temp/spill</strong> to <code>$PBS_JOBFS</code> (node-local SSD)</li>
+				<li><strong>Provides dashboard</strong> with SSH tunnel commands</li>
+			</ul>
+
+			<h2>Key Features</h2>
+
+			<div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-6 not-prose">
+				<div class="p-4 rounded-lg bg-color-100 dark:bg-color-800">
+					<h3 class="font-semibold mb-2">Smart Detection</h3>
+					<p class="text-sm">Automatic PBS/SLURM/Kubernetes environment and resource detection</p>
+				</div>
+				<div class="p-4 rounded-lg bg-color-100 dark:bg-color-800">
+					<h3 class="font-semibold mb-2">Configuration Profiles</h3>
+					<p class="text-sm">Pre-configured profiles for common workloads with validation</p>
+				</div>
+				<div class="p-4 rounded-lg bg-color-100 dark:bg-color-800">
+					<h3 class="font-semibold mb-2">Workload Optimization</h3>
+					<p class="text-sm">Specialized topologies for CPU-bound, I/O-bound, and mixed workloads</p>
+				</div>
+				<div class="p-4 rounded-lg bg-color-100 dark:bg-color-800">
+					<h3 class="font-semibold mb-2">Storage Intelligence</h3>
+					<p class="text-sm">Zarr/NetCDF-aware chunking and compression recommendations</p>
+				</div>
+				<div class="p-4 rounded-lg bg-color-100 dark:bg-color-800">
+					<h3 class="font-semibold mb-2">Memory Safety</h3>
+					<p class="text-sm">Aggressive spilling configuration prevents out-of-memory crashes</p>
+				</div>
+				<div class="p-4 rounded-lg bg-color-100 dark:bg-color-800">
+					<h3 class="font-semibold mb-2">HPC-Optimized</h3>
+					<p class="text-sm">Routes temp/spill to <code>$PBS_JOBFS</code> for maximum performance</p>
+				</div>
+			</div>
+
+			<h2 id="installation">Installation</h2>
+			<pre><code>pip install dask-setup</code></pre>
+
+			<p><strong>Requirements:</strong> Python 3.11+</p>
+
+			<h2 id="quick-start">Quick Start</h2>
+
+			<h3>Simple Usage</h3>
+			<pre><code>from dask_setup import setup_dask_client
+
+# Optimal defaults for CPU-bound work
+client, cluster, dask_tmp = setup_dask_client("cpu")</code></pre>
+
+			<h3>Advanced Configuration</h3>
+			<pre><code>from dask_setup import setup_dask_client, DaskSetupConfig
+
+config = DaskSetupConfig(
+    workload_type="cpu",
+    max_workers=8,
+    reserve_mem_gb=32.0,
+    spill_compression="lz4",
+    suggest_chunks=True  # Show xarray chunking recommendations
+)
+client, cluster, dask_tmp = setup_dask_client(config=config)</code></pre>
+
+			<h2 id="workload-types">Workload Types</h2>
+
+			<h3>CPU-Bound (<code>workload_type="cpu"</code>)</h3>
+			<ul>
+				<li><strong>Topology:</strong> Many processes, 1 thread each</li>
+				<li><strong>Best for:</strong> Heavy computation, NumPy/Numba operations, xarray math</li>
+				<li><strong>Workers:</strong> ≈ number of cores</li>
+			</ul>
+			<pre><code>client, cluster, tmp = setup_dask_client("cpu", reserve_mem_gb=60)
+ds = ds.chunk({`{"time": 240, "y": 512, "x": 512}`})
+result = ds.mean(("y", "x")).compute()</code></pre>
+
+			<h3>I/O-Bound (<code>workload_type="io"</code>)</h3>
+			<ul>
+				<li><strong>Topology:</strong> 1 process with 8-16 threads</li>
+				<li><strong>Best for:</strong> High-throughput NetCDF/Zarr I/O</li>
+				<li><strong>Workers:</strong> Single process, multi-threaded</li>
+			</ul>
+			<pre><code>client, cluster, tmp = setup_dask_client("io", reserve_mem_gb=40)
+ds = xr.open_mfdataset(files, engine="netcdf4", chunks={`{}`}, parallel=True)</code></pre>
+
+			<h3>Mixed (<code>workload_type="mixed"</code>)</h3>
+			<ul>
+				<li><strong>Topology:</strong> Few processes, 2 threads each</li>
+				<li><strong>Best for:</strong> Pipelines with both reading and computation</li>
+				<li><strong>Workers:</strong> Balanced configuration</li>
+			</ul>
+
+			<h2 id="config-profiles">Configuration Profiles</h2>
+
+			<pre><code>from dask_setup import ConfigManager, DaskSetupConfig
+
+# Use built-in profiles
+client, cluster, tmp = setup_dask_client(profile="cpu_intensive")
+
+# Create and save custom profiles
+config = DaskSetupConfig(
+    workload_type="io",
+    reserve_mem_gb=40.0,
+    spill_compression="lz4",
+    name="my_io_profile",
+    description="Optimized for large NetCDF processing"
+)
+
+manager = ConfigManager()
+manager.save_profile("my_io_profile", config)
+
+# List available profiles
+profiles = manager.list_profiles()</code></pre>
+
+			<h3>Built-in Profiles</h3>
+			<ul>
+				<li><strong>cpu_intensive:</strong> Heavy computation, many processes, minimal I/O</li>
+				<li><strong>io_heavy:</strong> Large file processing, optimized for Zarr/NetCDF</li>
+				<li><strong>memory_conservative:</strong> Lower memory usage, safer for shared systems</li>
+				<li><strong>balanced:</strong> Good default for mixed workloads</li>
+			</ul>
+
+			<h2 id="storage">Storage Format Intelligence</h2>
+
+			<p>
+				<code>dask_setup</code> includes sophisticated storage format detection and optimization 
+				for Zarr and NetCDF files:
+			</p>
+
+			<pre><code>from dask_setup import recommend_io_chunks
+
+# Automatic format detection and optimization
+chunks = recommend_io_chunks(
+    ds,                                      # Your xarray dataset
+    path_or_url="s3://bucket/data.zarr",   # Storage path
+    access_pattern="sequential",            # Access pattern
+    verbose=True                            # Show recommendations
+)
+
+ds_optimized = ds.chunk(chunks)</code></pre>
+
+			<h3>Zarr Optimization</h3>
+			<ul>
+				<li>Cloud-friendly chunking (128-512MB chunks)</li>
+				<li>Compression codecs (zstd for cloud, lz4 for local)</li>
+				<li>Automatic metadata consolidation</li>
+				<li>Bit rounding for floating-point compression</li>
+			</ul>
+
+			<h3>NetCDF Optimization</h3>
+			<ul>
+				<li>HDF5-aware chunking (64-256MB chunks)</li>
+				<li>Conservative chunking of unlimited dimensions</li>
+				<li>zlib with shuffle filter</li>
+				<li>Optimized caching for HTTP/S3 access</li>
+			</ul>
+
+			<h2 id="memory">Memory Management</h2>
+
+			<h3>Spill Thresholds</h3>
+			<p>Configured automatically to prevent OOM crashes:</p>
+			<ul>
+				<li><strong>75%:</strong> Start spilling to disk</li>
+				<li><strong>85%:</strong> Aggressive spilling</li>
+				<li><strong>92%:</strong> Pause scheduling new tasks</li>
+				<li><strong>98%:</strong> Kill worker (last resort)</li>
+			</ul>
+
+			<h3>Compression & Parallel I/O</h3>
+			<pre><code>config = DaskSetupConfig(
+    workload_type="cpu",
+    spill_compression="lz4",      # Options: auto, lz4, zstd, snappy
+    comm_compression=True,        # Worker-to-worker compression
+    spill_threads=4,              # Parallel spill I/O threads
+    reserve_mem_gb=50.0
+)
+client, cluster, tmp = setup_dask_client(config=config)</code></pre>
+
+			<h2 id="hpc">HPC Integration</h2>
+
+			<h3>PBS Job Example</h3>
+			<pre><code>#!/bin/bash
+#PBS -q normalsr
+#PBS -l ncpus=104
+#PBS -l mem=300gb
+#PBS -l jobfs=200gb
+#PBS -l walltime=12:00:00
+#PBS -l storage=gdata/hh5+gdata/gb02
+#PBS -l wd
+
+module use /g/data/hh5/public/modules/
+module load conda_concept/analysis3-unstable
+
+export TMPDIR="$PBS_JOBFS"
+python your_script.py</code></pre>
+
+			<h3>SSH Tunnel for Dashboard</h3>
+			<p>
+				With <code>dashboard=True</code>, the cluster prints an SSH tunnel command:
+			</p>
+			<pre><code># On your laptop:
+ssh -N -L 8787:&lt;compute_node&gt;:&lt;port&gt; gadi.nci.org.au
+
+# Then open: http://localhost:8787</code></pre>
+
+			<h2 id="usage">Common Usage Patterns</h2>
+
+			<h3>Xarray Reductions</h3>
+			<pre><code>client, cluster, dask_tmp = setup_dask_client("cpu", reserve_mem_gb=60)
+ds = ds.chunk({`{"time": 240, "y": 512, "x": 512}`})
+out = ds.mean(("y", "x")).compute()</code></pre>
+
+			<h3>Writing to Zarr</h3>
+			<pre><code>client, cluster, dask_tmp = setup_dask_client("cpu", max_workers=1)
+step = 240
+
+# First window creates store
+ds.isel(time=slice(0, step)).to_zarr("out.zarr", mode="w")
+
+# Append by region
+for start in range(step, n, step):
+    stop = min(start + step, n)
+    ds.isel(time=slice(start, stop)).to_zarr(
+        "out.zarr", mode="a",
+        region={`{"time": slice(start, stop)}`}
+    )</code></pre>
+
+			<h3>Rechunking with Rechunker</h3>
+			<pre><code>client, cluster, dask_tmp = setup_dask_client("cpu", reserve_mem_gb=60)
+
+tmp_store = f"{`{dask_tmp}`}/tmp_rechunk.zarr"
+plan = rechunker.rechunk(
+    ds.to_array().data,
+    target_chunks={`{"time": 240, "y": 512, "x": 512}`},
+    max_mem="6GB",
+    target_store="out.zarr",
+    temp_store=tmp_store,  # Lives on $PBS_JOBFS
+)
+plan.execute()</code></pre>
+
+			<h2 id="errors">Enhanced Error Handling</h2>
+
+			<p>
+				<code>dask_setup</code> provides context-aware error messages with actionable suggestions:
+			</p>
+
+			<pre><code># Invalid configuration triggers helpful error
+try:
+    config = DaskSetupConfig(
+        max_workers=-5,
+        reserve_mem_gb=1000.0,
+        workload_type="invalid"
+    )
+except ConfigurationValidationError as e:
+    print(e)
+    # Shows:
+    # - Specific validation errors
+    # - Actionable suggestions
+    # - Environment-specific advice
+    # - Documentation links</code></pre>
+
+			<h3>Error Types</h3>
+			<ul>
+				<li><strong>ConfigurationValidationError:</strong> Field-specific validation with fixes</li>
+				<li><strong>ResourceConstraintError:</strong> Memory/CPU limits with PBS/SLURM advice</li>
+				<li><strong>DependencyError:</strong> Missing packages with installation instructions</li>
+				<li><strong>StorageConfigurationError:</strong> Storage format issues with solutions</li>
+				<li><strong>ClusterSetupError:</strong> Cluster startup problems with diagnostics</li>
+			</ul>
+
+			<h2 id="cli">CLI Tools</h2>
+
+			<pre><code># List available profiles
+dask-setup profiles list
+
+# Show profile details
+dask-setup profiles show cpu_intensive
+
+# Create new profile interactively
+dask-setup profiles create my_profile
+
+# Validate configuration
+dask-setup config validate my_config.yaml
+
+# Export profile
+dask-setup profiles export cpu_intensive > cpu_profile.yaml</code></pre>
+
+			<h2>Testing & Quality</h2>
+			<ul>
+				<li><strong>500+ tests</strong> covering all functionality</li>
+				<li><strong>90%+ code coverage</strong> requirement</li>
+				<li>Integration tests with real HPC environments</li>
+				<li>Performance benchmarks for optimization validation</li>
+				<li>Cross-platform testing (Linux, macOS, Windows)</li>
+			</ul>
+
+			<h2 id="recipes">Recipe Examples</h2>
+
+			<p>
+				The <code>dask_setup</code> repository includes comprehensive recipe examples demonstrating 
+				real-world usage patterns. These recipes are fully executable Python scripts with detailed 
+				comments and explanations.
+			</p>
+
+			<div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-6 not-prose">
+				<div class="p-4 rounded-lg bg-color-100 dark:bg-color-800">
+					<h3 class="font-semibold mb-2">01. Basic Usage</h3>
+					<p class="text-sm mb-2">Core workload types (CPU/I/O/Mixed) with resource detection and safe shutdown patterns.</p>
+					<a href="https://github.com/21centuryweather/dask_setup/tree/main/examples/recipes/01_basic" target="_blank" class="text-xs text-accent-one hover:text-accent-two">View on GitHub →</a>
+				</div>
+				
+				<div class="p-4 rounded-lg bg-color-100 dark:bg-color-800">
+					<h3 class="font-semibold mb-2">02. Configuration Management</h3>
+					<p class="text-sm mb-2">Built-in profiles, custom YAML profiles, and runtime configuration overrides.</p>
+					<a href="https://github.com/21centuryweather/dask_setup/tree/main/examples/recipes/02_config_management" target="_blank" class="text-xs text-accent-one hover:text-accent-two">View on GitHub →</a>
+				</div>
+				
+				<div class="p-4 rounded-lg bg-color-100 dark:bg-color-800">
+					<h3 class="font-semibold mb-2">03. Memory & Compression</h3>
+					<p class="text-sm mb-2">Advanced memory management, spill compression strategies, and parallel I/O configuration.</p>
+					<a href="https://github.com/21centuryweather/dask_setup/tree/main/examples/recipes/03_memory_compression" target="_blank" class="text-xs text-accent-one hover:text-accent-two">View on GitHub →</a>
+				</div>
+				
+				<div class="p-4 rounded-lg bg-color-100 dark:bg-color-800">
+					<h3 class="font-semibold mb-2">04. Storage & I/O</h3>
+					<p class="text-sm mb-2">Storage format intelligence for Zarr/NetCDF with chunking and compression optimization.</p>
+					<a href="https://github.com/21centuryweather/dask_setup/tree/main/examples/recipes/04_storage_io" target="_blank" class="text-xs text-accent-one hover:text-accent-two">View on GitHub →</a>
+				</div>
+				
+				<div class="p-4 rounded-lg bg-color-100 dark:bg-color-800">
+					<h3 class="font-semibold mb-2">05. Xarray Chunking</h3>
+					<p class="text-sm mb-2">Best practices for xarray operations, chunking strategies, and lazy evaluation patterns.</p>
+					<a href="https://github.com/21centuryweather/dask_setup/tree/main/examples/recipes/05_xarray_chunking" target="_blank" class="text-xs text-accent-one hover:text-accent-two">View on GitHub →</a>
+				</div>
+				
+				<div class="p-4 rounded-lg bg-color-100 dark:bg-color-800">
+					<h3 class="font-semibold mb-2">06. HPC PBS/SLURM</h3>
+					<p class="text-sm mb-2">Job script examples for PBS/SLURM with SSH tunneling and dashboard access patterns.</p>
+					<a href="https://github.com/21centuryweather/dask_setup/tree/main/examples/recipes/06_hpc_pbs_slurm" target="_blank" class="text-xs text-accent-one hover:text-accent-two">View on GitHub →</a>
+				</div>
+				
+				<div class="p-4 rounded-lg bg-color-100 dark:bg-color-800">
+					<h3 class="font-semibold mb-2">07. Error & Troubleshooting</h3>
+					<p class="text-sm mb-2">Common errors and solutions with diagnostic tools and debugging strategies.</p>
+					<a href="https://github.com/21centuryweather/dask_setup/tree/main/examples/recipes/07_error_troubleshoot" target="_blank" class="text-xs text-accent-one hover:text-accent-two">View on GitHub →</a>
+				</div>
+				
+				<div class="p-4 rounded-lg bg-color-100 dark:bg-color-800">
+					<h3 class="font-semibold mb-2">08. Real-World Science</h3>
+					<p class="text-sm mb-2">Complete climate analysis case study with data loading, QC, temporal/spatial analysis, and visualization.</p>
+					<a href="https://github.com/21centuryweather/dask_setup/tree/main/examples/recipes/08_real_world_science" target="_blank" class="text-xs text-accent-one hover:text-accent-two">View on GitHub →</a>
+				</div>
+				
+				<div class="p-4 rounded-lg bg-color-100 dark:bg-color-800">
+					<h3 class="font-semibold mb-2">09. Performance Optimization</h3>
+					<p class="text-sm mb-2">Benchmarking, scaling analysis, and performance tuning for different workload types.</p>
+					<a href="https://github.com/21centuryweather/dask_setup/tree/main/examples/recipes/09_perf_optimization" target="_blank" class="text-xs text-accent-one hover:text-accent-two">View on GitHub →</a>
+				</div>
+				
+				<div class="p-4 rounded-lg bg-color-100 dark:bg-color-800">
+					<h3 class="font-semibold mb-2">10. Tool Integration</h3>
+					<p class="text-sm mb-2">Integration with rechunker, Zarr, NetCDF workflows with region-based writing patterns.</p>
+					<a href="https://github.com/21centuryweather/dask_setup/tree/main/examples/recipes/10_tool_integration" target="_blank" class="text-xs text-accent-one hover:text-accent-two">View on GitHub →</a>
+				</div>
+			</div>
+
+			<p class="mt-6">
+				<strong>Running Recipes:</strong> Each recipe can be executed directly from the command line:
+			</p>
+			<pre><code>python examples/recipes/01_basic/basic_usage.py --help
+python examples/recipes/08_real_world_science/climate_analysis_case.py --verbose</code></pre>
+
+			<h2 id="troubleshooting">Troubleshooting</h2>
+
+			<h3>"Task needs > memory_limit"</h3>
+			<p>Use fewer (fatter) workers for heavy steps:</p>
+			<pre><code>client, cluster, _ = setup_dask_client("cpu", max_workers=1, reserve_mem_gb=60)</code></pre>
+
+			<h3>Dashboard Unreachable</h3>
+			<p>Use the printed SSH tunnel command. For compute jobs, tunnel to the compute node hostname.</p>
+
+			<h3>Shared Filesystem Thrashing</h3>
+			<p>Confirm spills go to jobfs by checking the printed temp/spill directory path.</p>
+
+			<h2>Design Limitations</h2>
+			<ul>
+				<li><strong>Single node only:</strong> For multi-node, use <code>dask-jobqueue</code></li>
+				<li><strong>No GPU tuning:</strong> For CuPy/rapids, adjust settings accordingly</li>
+				<li><strong>POSIX paths:</strong> Assumes POSIX filesystem</li>
+			</ul>
+
+			<h2>TL;DR</h2>
+			<pre><code># Quick results:
+setup_dask_client("cpu")    # Heavy math/computation
+setup_dask_client("io")     # Large file I/O
+setup_dask_client("mixed")  # Mixed workloads
+
+# Or use optimized profiles:
+setup_dask_client(profile="cpu_intensive")</code></pre>
+
+			<h2>Contributing</h2>
+			<p>We welcome contributions! See the GitHub repository for guidelines.</p>
+
+			<h2>License</h2>
+			<p>Apache-2.0 License</p>
+		</article>
+		</div>
+	</div>
+</PageLayout>
+
+<style>
+	.prose {
+		color: var(--color-text);
+	}
+	
+	.prose h1,
+	.prose h2,
+	.prose h3,
+	.prose h4 {
+		color: var(--color-accent-two);
+	}
+	
+	.prose code {
+		background-color: var(--color-100);
+		padding: 0.125rem 0.25rem;
+		border-radius: 0.25rem;
+		font-size: 0.875em;
+	}
+
+	.dark .prose code {
+		background-color: var(--color-800);
+	}
+	
+	.prose pre {
+		background-color: var(--color-100);
+		border-radius: 0.5rem;
+		overflow-x: auto;
+		padding: 1rem;
+	}
+	
+	.dark .prose pre {
+		background-color: var(--color-800);
+	}
+
+	.prose pre code {
+		background-color: transparent;
+		padding: 0;
+	}
+
+	.lead {
+		font-size: 1.25rem;
+		font-weight: 300;
+		margin-bottom: 2rem;
+	}
+</style>

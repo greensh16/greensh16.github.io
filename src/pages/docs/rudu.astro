@@ -1,0 +1,380 @@
+---
+import PageLayout from "@/layouts/Base.astro";
+---
+
+<PageLayout meta={{ title: "rudu Documentation" }}>
+	<div class="max-w-4xl mx-auto px-4 py-8">
+		<div class="mb-8">
+			<a href="/docs" class="text-accent-one hover:text-accent-two transition-colors">
+				← Back to Documentation
+			</a>
+		</div>
+
+		<article class="prose prose-lg dark:prose-invert max-w-none prose-headings:text-accent-two prose-a:text-accent-one prose-a:no-underline hover:prose-a:text-accent-two hover:prose-a:underline" data-pagefind-body>
+			<h1>rudu</h1>
+			
+			<div class="flex gap-2 mb-4 not-prose">
+				<img src="https://github.com/greensh16/rudu/actions/workflows/rust_check.yml/badge.svg" alt="Build Status" />
+				<a href="https://doi.org/10.5281/zenodo.15914603" target="_blank" rel="noopener noreferrer">
+					<img src="https://zenodo.org/badge/DOI/10.5281/zenodo.15914603.svg" alt="DOI" />
+				</a>
+			</div>
+
+			<p class="lead">
+				<strong>rudu</strong> is a high-performance, Rust-powered replacement for the traditional Unix <code>du</code> (disk usage) command. 
+				Built to provide a safer, faster, and more extensible alternative for scanning and analyzing directory sizes — especially for large-scale or deep filesystem structures.
+			</p>
+
+			<div class="not-prose my-8">
+				<a 
+					href="https://github.com/greensh16/rudu" 
+					target="_blank"
+					rel="noopener noreferrer"
+					class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-accent-one to-accent-two text-bgColor font-semibold hover:brightness-110 transition-all"
+				>
+					View on GitHub
+				</a>
+			</div>
+
+			<h2>Why rudu?</h2>
+			<p>
+				While <code>du</code> has been a reliable tool for decades, it's single-threaded, limited in extensibility, and not always ideal for custom workflows or integration with modern systems. 
+				<code>rudu</code> takes advantage of Rust's memory safety and concurrency to provide a tool that is:
+			</p>
+
+			<ul>
+				<li><strong>Fast</strong> — uses multithreading (rayon) to speed up directory traversal and size aggregation</li>
+				<li><strong>Safe</strong> — memory-safe by design, no segfaults or undefined behavior</li>
+				<li><strong>Extensible</strong> — easy to add new flags, filters, and output formats</li>
+				<li><strong>Accurate</strong> — reports true disk usage (allocated blocks), not just file sizes</li>
+				<li><strong>Memory-aware</strong> — configurable memory limits for resource-constrained environments</li>
+			</ul>
+
+			<h2>Features</h2>
+
+			<h3>Core Functionality</h3>
+			<ul>
+				<li>Recursive disk usage scanning</li>
+				<li>Parallelized file traversal with multithreading</li>
+				<li>Real disk usage calculation (st_blocks × 512)</li>
+				<li>Cross-platform compatibility (macOS, Linux, BSD)</li>
+				<li>Platform-specific memory monitoring</li>
+			</ul>
+
+			<h3>Memory Management (v1.4.0+)</h3>
+			<ul>
+				<li><code>--memory-limit MB</code> — Set maximum memory usage</li>
+				<li>Graceful memory handling with automatic feature disabling</li>
+				<li>Early termination when memory limit exceeded</li>
+				<li>HPC cluster support for resource-constrained environments</li>
+			</ul>
+
+			<h3>Filtering and Display</h3>
+			<ul>
+				<li><code>--depth N</code> — Limit output to N levels deep</li>
+				<li><code>--exclude PATTERN</code> — Exclude patterns (e.g., .git, node_modules)</li>
+				<li><code>--show-files true|false</code> — Toggle file display</li>
+				<li>Clear <code>[DIR]</code> and <code>[FILE]</code> labels</li>
+			</ul>
+
+			<h3>Output & Analysis</h3>
+			<ul>
+				<li><code>--sort size|name</code> — Sort by size or name</li>
+				<li><code>--show-owner</code> — Display ownership information</li>
+				<li><code>--show-inodes</code> — Show file/directory counts</li>
+				<li><code>--output report.csv</code> — Export to CSV</li>
+			</ul>
+
+			<h3>Performance Features</h3>
+			<ul>
+				<li><code>--threads N</code> — Control CPU thread usage</li>
+				<li>Intelligent caching for faster subsequent runs</li>
+				<li>Incremental scanning (only rescans changed directories)</li>
+				<li><code>--profile</code> — Detailed performance profiling</li>
+				<li><code>--no-cache</code>, <code>--cache-ttl</code> — Cache management</li>
+			</ul>
+
+			<h2>Installation</h2>
+
+			<h3>Using Cargo</h3>
+			<pre><code>cargo install rudu</code></pre>
+
+			<h3>From Source</h3>
+			<pre><code>git clone https://github.com/greensh16/rudu.git
+cd rudu
+cargo build --release
+cargo install --path .</code></pre>
+
+			<h2>Usage Examples</h2>
+
+			<h3>Basic Usage</h3>
+			<pre><code># Scan current directory
+rudu
+
+# Scan specific directory
+rudu /data
+
+# With progress indicator
+rudu /large/directory</code></pre>
+
+			<h3>Memory-Limited Scanning (HPC Clusters)</h3>
+			<pre><code># Limit memory to 512MB
+rudu /large/dataset --memory-limit 512
+
+# Very memory-constrained (128MB)
+rudu /project --memory-limit 128 --no-cache
+
+# Combine with other options
+rudu /data --memory-limit 256 --depth 3 --threads 2</code></pre>
+
+			<h3>Filtering and Analysis</h3>
+			<pre><code># Top-level directories only
+rudu /data --depth 1
+
+# Exclude directories
+rudu /project --exclude .git --exclude node_modules
+
+# Sort by size and show owners
+rudu /data --sort size --show-owner</code></pre>
+
+			<h3>Output Formats</h3>
+			<pre><code># Export to CSV
+rudu /data --output report.csv
+
+# Combine options
+rudu /project --depth 2 --sort size --exclude .git --output analysis.csv</code></pre>
+
+			<h3>Performance Tuning</h3>
+			<pre><code># Use 4 threads
+rudu /large/directory --threads 4
+
+# Enable profiling
+rudu /project --profile --threads 8
+
+# Disable caching
+rudu /data --no-cache</code></pre>
+
+			<h2>Memory Limiting for HPC</h2>
+
+			<p>
+				<strong>New in v1.4.0:</strong> rudu supports memory usage limits, making it suitable for High-Performance Computing environments 
+				where memory resources are strictly controlled.
+			</p>
+
+			<h3>Why Memory Limiting?</h3>
+			<p>
+				In HPC clusters, jobs are allocated specific amounts of memory. Exceeding limits can result in:
+			</p>
+			<ul>
+				<li>Job termination by the scheduler (SLURM, PBS, etc.)</li>
+				<li>Node instability affecting other users</li>
+				<li>Poor cluster performance</li>
+			</ul>
+
+			<h3>How It Works</h3>
+			<ol>
+				<li><strong>Real-time monitoring</strong> — Tracks RSS (Resident Set Size) memory usage</li>
+				<li><strong>Graceful degradation</strong> — At 95% of limit, disables memory-intensive features</li>
+				<li><strong>Early termination</strong> — Stops scan if limit exceeded, returns partial results</li>
+				<li><strong>Platform awareness</strong> — Automatically handles platforms without RSS support</li>
+			</ol>
+
+			<h3>HPC Usage Example</h3>
+			<pre><code>#!/bin/bash
+#SBATCH --mem=1G
+#SBATCH --job-name=rudu-scan
+rudu /lustre/project --memory-limit 900 --no-cache --threads 4</code></pre>
+
+			<h3>Memory Behavior</h3>
+			<table>
+				<thead>
+					<tr>
+						<th>Memory Usage</th>
+						<th>Behavior</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>&lt; 95% limit</td>
+						<td>Normal operation with all features</td>
+					</tr>
+					<tr>
+						<td>95-100% limit</td>
+						<td>Disables caching, reduces allocations</td>
+					</tr>
+					<tr>
+						<td>&gt; 100% limit</td>
+						<td>Terminates early, returns partial results</td>
+					</tr>
+				</tbody>
+			</table>
+
+			<h2>Performance</h2>
+
+			<h3>Benchmark Results</h3>
+			<table>
+				<thead>
+					<tr>
+						<th>Directory Type</th>
+						<th>Files/Dirs</th>
+						<th>du Time</th>
+						<th>rudu Time</th>
+						<th>Speedup</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>Small (1K files)</td>
+						<td>~1,000</td>
+						<td>0.010s</td>
+						<td>0.619s</td>
+						<td>0.02x*</td>
+					</tr>
+					<tr>
+						<td>Medium (/usr/bin)</td>
+						<td>~1,400</td>
+						<td>0.017s</td>
+						<td>0.015s</td>
+						<td>1.13x</td>
+					</tr>
+					<tr>
+						<td>Large (project)</td>
+						<td>~10,000</td>
+						<td>0.106s</td>
+						<td>0.052s</td>
+						<td>2.04x</td>
+					</tr>
+				</tbody>
+			</table>
+
+			<p class="text-sm">
+				<em>*Note: For very small directories, rudu's startup overhead can make it slower than du. 
+				Performance benefits become apparent with larger directory structures.</em>
+			</p>
+
+			<h3>When to Use</h3>
+			
+			<p><strong>Use rudu for:</strong></p>
+			<ul>
+				<li>Large directory structures (&gt;5,000 files)</li>
+				<li>Complex filtering requirements</li>
+				<li>CSV output for analysis</li>
+				<li>HPC clusters and memory-constrained environments</li>
+				<li>Repeated scans (caching benefits)</li>
+			</ul>
+
+			<p><strong>Use du for:</strong></p>
+			<ul>
+				<li>Very small directories (&lt;1,000 files)</li>
+				<li>Simple, quick size checks</li>
+				<li>Legacy script compatibility</li>
+			</ul>
+
+			<h2>Contributing</h2>
+
+			<p>Contributions are welcome! Please submit a Pull Request on GitHub.</p>
+
+			<h3>Development Setup</h3>
+			<pre><code>git clone https://github.com/greensh16/rudu.git
+cd rudu
+
+# Run tests
+cargo test
+
+# Check formatting
+cargo fmt --check
+
+# Run linter
+cargo clippy --all-targets -- -D warnings
+
+# Build documentation
+cargo doc --open</code></pre>
+
+			<h2>License</h2>
+			<p>GNU General Public License v3.0 - see the LICENSE file for details.</p>
+
+			<h2>Acknowledgments</h2>
+			<ul>
+				<li>Inspired by the classic Unix <code>du</code> command</li>
+				<li>Built with <a href="https://www.rust-lang.org/" target="_blank" rel="noopener noreferrer">Rust</a></li>
+				<li>Uses <a href="https://github.com/rayon-rs/rayon" target="_blank" rel="noopener noreferrer">Rayon</a> for parallel processing</li>
+				<li>CLI powered by <a href="https://github.com/clap-rs/clap" target="_blank" rel="noopener noreferrer">Clap</a></li>
+				<li>Progress indicators via <a href="https://github.com/console-rs/indicatif" target="_blank" rel="noopener noreferrer">Indicatif</a></li>
+			</ul>
+		</article>
+	</div>
+</PageLayout>
+
+<style>
+	.prose {
+		color: var(--color-text);
+	}
+	
+	.prose h1,
+	.prose h2,
+	.prose h3,
+	.prose h4 {
+		color: var(--color-accent-two);
+	}
+	
+	.prose code {
+		background-color: var(--color-100);
+		padding: 0.125rem 0.25rem;
+		border-radius: 0.25rem;
+		font-size: 0.875em;
+	}
+
+	.dark .prose code {
+		background-color: var(--color-800);
+	}
+	
+	.prose pre {
+		background-color: var(--color-100);
+		border-radius: 0.5rem;
+		overflow-x: auto;
+		padding: 1rem;
+	}
+	
+	.dark .prose pre {
+		background-color: var(--color-800);
+	}
+
+	.prose pre code {
+		background-color: transparent;
+		padding: 0;
+	}
+
+	.lead {
+		font-size: 1.25rem;
+		font-weight: 300;
+		margin-bottom: 2rem;
+	}
+
+	.prose table {
+		width: 100%;
+		border-collapse: collapse;
+		margin: 1.5rem 0;
+	}
+
+	.prose th {
+		background-color: var(--color-100);
+		font-weight: 600;
+		text-align: left;
+		padding: 0.75rem;
+		border: 1px solid var(--color-300);
+	}
+
+	.dark .prose th {
+		background-color: var(--color-800);
+		border-color: var(--color-700);
+	}
+
+	.prose td {
+		padding: 0.75rem;
+		border: 1px solid var(--color-300);
+	}
+
+	.dark .prose td {
+		border-color: var(--color-700);
+	}
+</style>

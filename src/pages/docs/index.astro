@@ -1,0 +1,59 @@
+---
+import PageLayout from "@/layouts/Base.astro";
+
+const docs = [
+	{
+		title: "Feilian-3D",
+		description: "Deep learning project for 3D wind speed field prediction using U-Net architecture, optimized for HPC environments with AMD ROCm GPUs",
+		url: "/docs/feilian-3d",
+		tags: ["Deep Learning", "U-Net", "HPC", "ROCm"],
+	},
+	{
+		title: "rudu",
+		description: "High-performance, Rust-powered replacement for Unix du command with memory limiting, parallel processing, and CSV export",
+		url: "/docs/rudu",
+		tags: ["Rust", "CLI", "Performance", "HPC"],
+	},
+	{
+		title: "dask_setup",
+		description: "Comprehensive single-node Dask setup helper for HPC environments with intelligent resource detection and storage format optimization",
+		url: "/docs/dask-setup",
+		tags: ["Python", "Dask", "HPC", "Xarray"],
+	},
+];
+---
+
+<PageLayout meta={{ title: "Documentation" }}>
+	<div class="max-w-3xl mx-auto px-4">
+		<h1 class="title text-4xl mb-4 bg-gradient-to-r from-accent-two/85 via-accent-one/85 to-accent-two/85 dark:from-accent-two dark:via-accent-one dark:to-accent-two bg-clip-text text-transparent">
+			Documentation
+		</h1>
+		<p class="mb-8 text-lg">
+			Documentation and guides for my open source tools and projects.
+		</p>
+
+		<div class="space-y-6">
+			{
+				docs.map((doc) => (
+					<article class="p-6 rounded-lg border border-color-300 dark:border-color-700 hover:border-accent-one dark:hover:border-accent-one transition-colors">
+						<a href={doc.url} class="block">
+							<h2 class="text-2xl font-semibold mb-2 text-accent-two hover:text-accent-one transition-colors">
+								{doc.title}
+							</h2>
+							<p class="mb-4 text-color-600 dark:text-color-400">
+								{doc.description}
+							</p>
+							<div class="flex flex-wrap gap-2">
+								{doc.tags.map((tag) => (
+									<span class="px-3 py-1 text-sm rounded-full bg-color-100 dark:bg-color-800">
+										{tag}
+									</span>
+								))}
+							</div>
+						</a>
+					</article>
+				))
+			}
+		</div>
+	</div>
+</PageLayout>
