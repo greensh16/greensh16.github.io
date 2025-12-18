@@ -1,13 +1,25 @@
 ---
 import "@/styles/munday-green-wedding.css";
+import { coupleName, weddingLabel } from "@/data/munday-green-wedding";
 
 interface Props {
 	title: string;
 	description?: string;
 }
 
-const { description = "Munday + Green Wedding", title } = Astro.props;
+const { description = weddingLabel, title } = Astro.props;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+
+const navItems: { label: string; href: string }[] = [
+	{ label: "Schedule", href: "/MundayGreenWedding/schedule/" },
+	{ label: "Venue", href: "/MundayGreenWedding/venue/" },
+	{ label: "Directions", href: "/MundayGreenWedding/directions/" },
+	{ label: "Accommodation", href: "/MundayGreenWedding/accommodation/" },
+	{ label: "Registry", href: "/MundayGreenWedding/registry/" },
+	{ label: "FAQ", href: "/MundayGreenWedding/faq/" },
+];
+
+const pathname = Astro.url.pathname.endsWith("/") ? Astro.url.pathname : `${Astro.url.pathname}/`;
 ---
 
 <html class="mgw" lang="en-US">
@@ -18,18 +30,45 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 		<meta name="description" content={description} />
 		<link rel="canonical" href={canonicalURL} />
 		<link rel="icon" href="/icon.svg" type="image/svg+xml" />
+
+		<!-- Fonts (loaded only for the wedding section) -->
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap"
+			rel="stylesheet"
+		/>
 	</head>
 	<body class="mgw-body">
-		<header class="mgw-header">
-			<a class="mgw-home" href="/">← Back to greensh16.github.io</a>
-		</header>
+		<div class="mgw-shell">
+			<aside class="mgw-sidebar">
+				<nav class="mgw-sidebar-box" aria-label="Wedding contents">
+					<p class="mgw-sidebar-eyebrow">Wedding</p>
+					<a class="mgw-sidebar-title" href="/MundayGreenWedding/">{coupleName}</a>
+					<div class="mgw-nav">
+						{navItems.map((item) => {
+							const isActive = pathname === item.href;
+							return (
+								<a
+									class={`mgw-nav-link${isActive ? " mgw-nav-link--active" : ""}`}
+									href={item.href}
+									aria-current={isActive ? "page" : undefined}
+								>
+									{item.label}
+								</a>
+							);
+						})}
+					</div>
+				</nav>
+			</aside>
 
-		<main class="mgw-main">
-			<slot />
-		</main>
+			<main class="mgw-main">
+				<slot />
+			</main>
+		</div>
 
 		<footer class="mgw-footer">
-			<p class="mgw-footnote">© {new Date().getFullYear()} Munday + Green</p>
+			<p class="mgw-footnote">© {new Date().getFullYear()} {coupleName}</p>
 		</footer>
 	</body>
 </html>

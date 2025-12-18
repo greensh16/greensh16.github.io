@@ -1,0 +1,19 @@
+---
+import MundayGreenWeddingLayout from "@/layouts/MundayGreenWeddingLayout.astro";
+import { faqs } from "@/data/munday-green-wedding";
+---
+
+<MundayGreenWeddingLayout title="FAQ — Mel & Sam Wedding">
+	<p class="mgw-eyebrow">FAQ</p>
+	<h1 class="mgw-title">FAQ</h1>
+	<p class="mgw-subtitle">Quick answers to common questions.</p>
+
+	<div class="mgw-faq">
+		{faqs.map((item) => (
+			<details class="mgw-faq-item">
+				<summary class="mgw-faq-q">{item.q}</summary>
+				<p class="mgw-faq-a">{item.a}</p>
+			</details>
+		))}
+	</div>
+</MundayGreenWeddingLayout>

@@ -11,6 +11,7 @@ html.mgw {
 	--mgw-accent: #b6575d;
 	--mgw-accent-2: #1f6f78;
 	--mgw-border: rgba(42, 31, 27, 0.12);
+	--mgw-heading: "Indie Flower", ui-rounded, "Comic Sans MS", cursive;
 
 	background: radial-gradient(1200px 600px at 10% 0%, rgba(182, 87, 93, 0.12), transparent 60%),
 		radial-gradient(900px 600px at 90% 0%, rgba(31, 111, 120, 0.12), transparent 55%),
@@ -41,28 +42,65 @@ html.mgw a:hover {
 
 .mgw-body {
 	display: grid;
-	grid-template-rows: auto 1fr auto;
+	grid-template-rows: 1fr auto;
 	min-height: 100dvh;
 }
 
-.mgw-header {
-	padding: 1.25rem 1.25rem 0;
+.mgw-shell {
+	width: min(1100px, calc(100% - 2rem));
+	margin: 1.25rem auto 2.5rem;
+	display: grid;
+	gap: 1rem;
+	align-items: start;
 }
 
-.mgw-home {
-	display: inline-block;
-	padding: 0.5rem 0.75rem;
+@media (min-width: 900px) {
+	.mgw-shell {
+		grid-template-columns: 240px 1fr;
+		gap: 1.25rem;
+	}
+
+	.mgw-sidebar-box {
+		position: sticky;
+		top: 1.25rem;
+	}
+}
+
+.mgw-sidebar-box {
 	border: 1px solid var(--mgw-border);
-	border-radius: 999px;
+	border-radius: 18px;
+	padding: 1rem;
 	background: var(--mgw-surface);
-	backdrop-filter: blur(10px);
+	backdrop-filter: blur(12px);
+	box-shadow:
+		0 20px 45px rgba(0, 0, 0, 0.07),
+		0 2px 10px rgba(0, 0, 0, 0.04);
+}
+
+.mgw-sidebar-eyebrow {
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+	font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
 	color: var(--mgw-muted);
-	font-size: 0.95rem;
+	font-size: 0.75rem;
+	margin: 0;
+}
+
+.mgw-sidebar-title {
+	display: inline-block;
+	margin: 0.35rem 0 0.75rem;
+	font-size: 1.7rem;
+	line-height: 1.05;
+	font-family: var(--mgw-heading);
+	font-weight: 400;
+	color: var(--mgw-text);
+}
+
+.mgw-sidebar-title:hover {
+	text-decoration: none;
 }
 
 .mgw-main {
-	width: min(960px, calc(100% - 2rem));
-	margin: 1.25rem auto 2.5rem;
 	padding: 1.5rem;
 	border: 1px solid var(--mgw-border);
 	border-radius: 24px;
@@ -83,6 +121,8 @@ html.mgw a:hover {
 }
 
 .mgw-title {
+	font-family: var(--mgw-heading);
+	font-weight: 400;
 	font-size: clamp(2.1rem, 4vw, 3.25rem);
 	margin: 0.5rem 0 0.75rem;
 	line-height: 1.05;
@@ -116,9 +156,30 @@ html.mgw a:hover {
 	background: rgba(255, 255, 255, 0.7);
 }
 
+.mgw-card--link {
+	display: block;
+	color: inherit;
+	transition: border-color 150ms ease, background 150ms ease, transform 150ms ease;
+}
+
+.mgw-card--link:hover {
+	text-decoration: none;
+	border-color: rgba(42, 31, 27, 0.22);
+	background: rgba(255, 255, 255, 0.78);
+	transform: translateY(-1px);
+}
+
+.mgw-card--link:focus-visible {
+	outline: 2px solid rgba(31, 111, 120, 0.55);
+	outline-offset: 3px;
+}
+
 .mgw-card h2 {
 	margin: 0 0 0.5rem;
-	font-size: 1.25rem;
+	font-family: var(--mgw-heading);
+	font-weight: 400;
+	font-size: 1.65rem;
+	line-height: 1.1;
 }
 
 .mgw-card p,
@@ -140,28 +201,31 @@ html.mgw a:hover {
 }
 
 .mgw-nav {
-	display: flex;
-	flex-wrap: wrap;
-	gap: 0.5rem;
-	margin: 1.25rem 0 0;
+	display: grid;
+	gap: 0.35rem;
 }
 
 .mgw-nav-link {
-	display: inline-flex;
+	display: flex;
 	align-items: center;
-	justify-content: center;
-	padding: 0.55rem 0.85rem;
-	border-radius: 999px;
+	justify-content: flex-start;
+	padding: 0.6rem 0.75rem;
+	border-radius: 12px;
 	border: 1px solid var(--mgw-border);
-	background: rgba(255, 255, 255, 0.65);
-	color: var(--mgw-muted);
+	background: rgba(255, 255, 255, 0.6);
+	color: rgba(42, 31, 27, 0.85);
 	font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
-	font-weight: 600;
+	font-weight: 700;
 	font-size: 0.95rem;
 }
 
 .mgw-nav-link:hover {
 	text-decoration: none;
+	border-color: rgba(42, 31, 27, 0.22);
+}
+
+.mgw-nav-link--active {
+	background: linear-gradient(135deg, rgba(182, 87, 93, 0.14), rgba(31, 111, 120, 0.12));
 	border-color: rgba(42, 31, 27, 0.22);
 }
 
@@ -171,8 +235,10 @@ html.mgw a:hover {
 
 .mgw-h2 {
 	margin: 0 0 0.75rem;
-	font-size: 1.5rem;
-	line-height: 1.2;
+	font-family: var(--mgw-heading);
+	font-weight: 400;
+	font-size: 2rem;
+	line-height: 1.1;
 }
 
 .mgw-muted {

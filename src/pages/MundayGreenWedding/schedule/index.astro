@@ -1,0 +1,22 @@
+---
+import MundayGreenWeddingLayout from "@/layouts/MundayGreenWeddingLayout.astro";
+import { schedule } from "@/data/munday-green-wedding";
+---
+
+<MundayGreenWeddingLayout title="Schedule — Mel & Sam Wedding">
+	<p class="mgw-eyebrow">Schedule</p>
+	<h1 class="mgw-title">Schedule</h1>
+	<p class="mgw-subtitle">Times are a draft and may shift slightly.</p>
+
+	<ol class="mgw-timeline">
+		{schedule.map((item) => (
+			<li class="mgw-timeline-item">
+				<span class="mgw-time">{item.time}</span>
+				<span class="mgw-what">
+					<strong>{item.title}</strong>
+					{item.note && <span class="mgw-note">{item.note}</span>}
+				</span>
+			</li>
+		))}
+	</ol>
+</MundayGreenWeddingLayout>

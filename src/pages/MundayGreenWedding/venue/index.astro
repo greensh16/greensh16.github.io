@@ -1,0 +1,42 @@
+---
+import MundayGreenWeddingLayout from "@/layouts/MundayGreenWeddingLayout.astro";
+import {
+	googleDirectionsUrl,
+	googlePlaceUrl,
+	osmEmbedUrl,
+	venue,
+} from "@/data/munday-green-wedding";
+---
+
+<MundayGreenWeddingLayout
+	title={`Venue — ${venue.name} — Mel & Sam Wedding`}
+	description={`Venue details for ${venue.name}.`}
+>
+	<p class="mgw-eyebrow">Venue</p>
+	<h1 class="mgw-title">{venue.name}</h1>
+	<p class="mgw-subtitle">Map and links below. Address details will be added soon.</p>
+
+	<div class="mgw-map-wrap">
+		<iframe
+			title={`Map: ${venue.name}`}
+			class="mgw-map"
+			src={osmEmbedUrl}
+			loading="lazy"
+			referrerpolicy="no-referrer-when-downgrade"
+		></iframe>
+	</div>
+
+	<div class="mgw-actions">
+		<a
+			class="mgw-button mgw-button--primary"
+			href={googleDirectionsUrl}
+			target="_blank"
+			rel="noopener noreferrer"
+		>
+			Get directions
+		</a>
+		<a class="mgw-button" href={googlePlaceUrl} target="_blank" rel="noopener noreferrer">
+			View on Google Maps
+		</a>
+	</div>
+</MundayGreenWeddingLayout>

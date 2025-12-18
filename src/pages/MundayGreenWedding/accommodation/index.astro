@@ -1,0 +1,21 @@
+---
+import MundayGreenWeddingLayout from "@/layouts/MundayGreenWeddingLayout.astro";
+import { venue } from "@/data/munday-green-wedding";
+---
+
+<MundayGreenWeddingLayout title="Accommodation — Mel & Sam Wedding">
+	<p class="mgw-eyebrow">Accommodation</p>
+	<h1 class="mgw-title">Accommodation</h1>
+	<p class="mgw-subtitle">
+		A few options near {venue.name}. We’ll add recommended spots and any hotel blocks soon.
+	</p>
+
+	<section class="mgw-section">
+		<h2 class="mgw-h2">Suggestions</h2>
+		<ul class="mgw-list">
+			<li><strong>Nearby hotels:</strong> TBD</li>
+			<li><strong>Airbnb / holiday rentals:</strong> TBD</li>
+			<li><strong>Travel time:</strong> Please allow extra time for rural roads.</li>
+		</ul>
+	</section>
+</MundayGreenWeddingLayout>

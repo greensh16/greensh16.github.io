@@ -1,0 +1,36 @@
+---
+import MundayGreenWeddingLayout from "@/layouts/MundayGreenWeddingLayout.astro";
+import { googleDirectionsUrl, venue } from "@/data/munday-green-wedding";
+---
+
+<MundayGreenWeddingLayout title="Directions — Mel & Sam Wedding">
+	<p class="mgw-eyebrow">Directions</p>
+	<h1 class="mgw-title">Directions</h1>
+	<p class="mgw-subtitle">Getting to {venue.name}.</p>
+
+	<div class="mgw-actions">
+		<a
+			class="mgw-button mgw-button--primary"
+			href={googleDirectionsUrl}
+			target="_blank"
+			rel="noopener noreferrer"
+		>
+			Open directions in Google Maps
+		</a>
+	</div>
+
+	<ul class="mgw-list">
+		<li>
+			<strong>Driving:</strong> Please allow extra time for rural roads.
+		</li>
+		<li>
+			<strong>Rideshare:</strong> If using Uber/taxis, double-check pickup availability for late-night.
+		</li>
+		<li>
+			<strong>Parking:</strong> TBD (we’ll confirm on-site parking details).
+		</li>
+		<li>
+			<strong>Accessibility:</strong> TBD (we’ll share details about paths/seating).
+		</li>
+	</ul>
+</MundayGreenWeddingLayout>
