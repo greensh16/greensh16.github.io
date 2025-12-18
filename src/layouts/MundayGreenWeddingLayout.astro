@@ -1,0 +1,35 @@
+---
+import "@/styles/munday-green-wedding.css";
+
+interface Props {
+	title: string;
+	description?: string;
+}
+
+const { description = "Munday + Green Wedding", title } = Astro.props;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+---
+
+<html class="mgw" lang="en-US">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>{title}</title>
+		<meta name="description" content={description} />
+		<link rel="canonical" href={canonicalURL} />
+		<link rel="icon" href="/icon.svg" type="image/svg+xml" />
+	</head>
+	<body class="mgw-body">
+		<header class="mgw-header">
+			<a class="mgw-home" href="/">← Back to greensh16.github.io</a>
+		</header>
+
+		<main class="mgw-main">
+			<slot />
+		</main>
+
+		<footer class="mgw-footer">
+			<p class="mgw-footnote">© {new Date().getFullYear()} Munday + Green</p>
+		</footer>
+	</body>
+</html>

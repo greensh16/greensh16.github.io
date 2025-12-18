@@ -1,0 +1,138 @@
+---
+import MundayGreenWeddingLayout from "@/layouts/MundayGreenWeddingLayout.astro";
+
+const venue = {
+	name: "Fernbank Farm",
+	lat: -33.2641853,
+	lon: 151.3361165,
+};
+
+const googlePlaceUrl =
+	"https://www.google.com/maps/place/Fernbank+Farm/@-33.2645291,151.3337427,1175m/data=!3m1!1e3!4m6!3m5!1s0x6b72cd563c66b32b:0x6c1ed69c8423f31a!8m2!3d-33.2641853!4d151.3361165!16s%2Fg%2F11b7c4wx9g?entry=ttu";
+
+const googleDirectionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${venue.lat},${venue.lon}`;
+
+const bboxDelta = {
+	lat: 0.01,
+	lon: 0.012,
+};
+
+const osmBbox = encodeURIComponent(
+	`${venue.lon - bboxDelta.lon},${venue.lat - bboxDelta.lat},${venue.lon + bboxDelta.lon},${venue.lat + bboxDelta.lat}`,
+);
+
+const osmMarker = encodeURIComponent(`${venue.lat},${venue.lon}`);
+
+const osmEmbedUrl = `https://www.openstreetmap.org/export/embed.html?bbox=${osmBbox}&layer=mapnik&marker=${osmMarker}`;
+
+const schedule: { time: string; title: string; note?: string }[] = [
+	{ time: "3:00 PM", title: "Guests arrive", note: "Grab a drink, find your seat." },
+	{ time: "3:30 PM", title: "Ceremony" },
+	{ time: "4:00 PM", title: "Cocktail hour" },
+	{ time: "5:30 PM", title: "Dinner" },
+	{ time: "7:00 PM", title: "Speeches + cake" },
+	{ time: "7:30 PM", title: "Dancing" },
+	{ time: "10:30 PM", title: "Farewell" },
+];
+
+const faqs: { q: string; a: string }[] = [
+	{ q: "What’s the dress code?", a: "TBD (we’ll update this soon)." },
+	{ q: "Can I bring a plus-one?", a: "TBD (we’ll update this soon)." },
+	{ q: "Are kids welcome?", a: "TBD (we’ll update this soon)." },
+	{ q: "Food allergies / dietary needs?", a: "TBD (we’ll update this soon)." },
+	{ q: "What about gifts?", a: "TBD (registry coming soon)." },
+];
+---
+
+<MundayGreenWeddingLayout title="Munday + Green Wedding">
+	<p class="mgw-eyebrow">Wedding</p>
+	<h1 class="mgw-title">Munday + Green</h1>
+	<p class="mgw-subtitle">
+		All the key details are below. This page will be updated as we finalize timings.
+	</p>
+
+	<nav class="mgw-nav" aria-label="Wedding page sections">
+		<a class="mgw-nav-link" href="#schedule">Schedule</a>
+		<a class="mgw-nav-link" href="#venue">Venue</a>
+		<a class="mgw-nav-link" href="#directions">Directions</a>
+		<a class="mgw-nav-link" href="#faq">FAQ</a>
+	</nav>
+
+	<section id="schedule" class="mgw-section">
+		<h2 class="mgw-h2">Schedule</h2>
+		<ol class="mgw-timeline">
+			{schedule.map((item) => (
+				<li class="mgw-timeline-item">
+					<span class="mgw-time">{item.time}</span>
+					<span class="mgw-what">
+						<strong>{item.title}</strong>
+						{item.note && <span class="mgw-note">{item.note}</span>}
+					</span>
+				</li>
+			))}
+		</ol>
+		<p class="mgw-muted">
+			Times are a draft and may shift slightly.
+		</p>
+	</section>
+
+	<section id="venue" class="mgw-section">
+		<h2 class="mgw-h2">Venue</h2>
+		<p class="mgw-muted">
+			<strong>{venue.name}</strong>
+		</p>
+		<div class="mgw-map-wrap">
+			<iframe
+				title={`Map: ${venue.name}`}
+				class="mgw-map"
+				src={osmEmbedUrl}
+				loading="lazy"
+				referrerpolicy="no-referrer-when-downgrade"
+			></iframe>
+		</div>
+
+		<div class="mgw-actions">
+			<a
+				class="mgw-button mgw-button--primary"
+				href={googleDirectionsUrl}
+				target="_blank"
+				rel="noopener noreferrer"
+			>
+				Get directions
+			</a>
+			<a class="mgw-button" href={googlePlaceUrl} target="_blank" rel="noopener noreferrer">
+				View on Google Maps
+			</a>
+		</div>
+	</section>
+
+	<section id="directions" class="mgw-section">
+		<h2 class="mgw-h2">Directions</h2>
+		<ul class="mgw-list">
+			<li>
+				<strong>Driving:</strong> Use the directions link above. Please allow extra time for rural roads.
+			</li>
+			<li>
+				<strong>Rideshare:</strong> If using Uber/taxis, double-check pickup availability for late-night.
+			</li>
+			<li>
+				<strong>Parking:</strong> TBD (we’ll confirm on-site parking details).
+			</li>
+			<li>
+				<strong>Accessibility:</strong> TBD (we’ll share details about paths/seating).
+			</li>
+		</ul>
+	</section>
+
+	<section id="faq" class="mgw-section">
+		<h2 class="mgw-h2">FAQ</h2>
+		<div class="mgw-faq">
+			{faqs.map((item) => (
+				<details class="mgw-faq-item">
+					<summary class="mgw-faq-q">{item.q}</summary>
+					<p class="mgw-faq-a">{item.a}</p>
+				</details>
+			))}
+		</div>
+	</section>
+</MundayGreenWeddingLayout>
