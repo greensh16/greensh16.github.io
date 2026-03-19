@@ -127,6 +127,7 @@ const { headings } = await render(post);
 </script>
 
 <script>
+	(() => {
 	const ANIMATION_DURATION = 300;
 	// Get the button and panel elements
 	const togglePanelBtn = document.getElementById("toggle-panel");
@@ -187,9 +188,11 @@ const { headings } = await render(post);
 	if (closePanelBtn) {
 		closePanelBtn.addEventListener("click", hidePanel);
 	}
+	})();
 </script>
 
 <script>
+	(() => {
 	// Get the button and panel elements
 	const toggleTocBtn = document.getElementById('toggle-toc');
 	const closeTocBtn = document.getElementById('close-toc');
@@ -245,6 +248,7 @@ const { headings } = await render(post);
 	if (closeTocBtn) {
 		closeTocBtn.addEventListener('click', hideToc);
 	}
+	})();
 </script>
 
 <script>
