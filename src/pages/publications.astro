@@ -1,0 +1,291 @@
+---
+import PageLayout from "@/layouts/Base.astro";
+
+const meta = {
+	description: "Academic publications, preprints, and software releases by Samuel Green (ORCID: 0000-0003-1129-4676).",
+	title: "Publications",
+};
+
+const journalArticles = [
+	{
+		year: "2025",
+		title: "Thermal emission from bow shocks III: Variable diffuse X-ray emission from stellar-wind bow shocks driven by dynamical instabilities",
+		venue: "Astronomy & Astrophysics",
+		doi: "10.1051/0004-6361/202553722",
+		authors: "Mackey, J.; Mathew, A.; Ali, A. A.; Haworth, T. J.; Brose, R.; Green, S.; Moutzouri, M.; Walch, S.",
+	},
+	{
+		year: "2024",
+		title: "On the predictability of turbulent fluxes from land: PLUMBER2 MIP experimental description and preliminary results",
+		venue: "Biogeosciences",
+		doi: "10.5194/bg-21-5517-2024",
+		authors: "Abramowitz, G.; Ukkola, A.; Hobeichi, S.; Cranko Page, J.; Lipson, M.; De Kauwe, M. G.; Green, S.; Brenner, C.; Frame, J.; Nearing, G. et al.",
+	},
+	{
+		year: "2024",
+		title: "Linking physical climate risk with mandatory business risk disclosure requirements",
+		venue: "Environmental Research Letters",
+		doi: "10.1088/1748-9326/ad4377",
+		authors: "Pitman, A. J.; Saribatir, E.; Greenhill, C.; Green, S.; Pitman, S. J.; Fiedler, T.",
+	},
+	{
+		year: "2023",
+		title: "Using Machine Learning to Cut the Cost of Dynamical Downscaling",
+		venue: "Earth's Future",
+		doi: "10.1029/2022EF003291",
+		authors: "Hobeichi, S.; Nishant, N.; Shao, Y.; Abramowitz, G.; Pitman, A.; Sherwood, S.; Bishop, C.; Green, S.",
+	},
+	{
+		year: "2022",
+		title: "Diffuse thermal X-ray emission from bow shocks of massive stars",
+		venue: "Preprint / submitted",
+		doi: "10.5281/ZENODO.7308129",
+		authors: "Mackey, J.; Green, S.; Haworth, T. J.; Kavanagh, P.; Moutzouri, M.; Gvaramadze, V. V.",
+	},
+	{
+		year: "2022",
+		title: "Thermal emission from bow shocks II",
+		venue: "Astronomy & Astrophysics",
+		doi: "10.1051/0004-6361/202243531",
+		authors: "Green, S.; Mackey, J.; Kavanagh, P.; Haworth, T. J.; Moutzouri, M.; Gvaramadze, V. V.",
+	},
+	{
+		year: "2021",
+		title: "pion: simulating bow shocks and circumstellar nebulae",
+		venue: "Monthly Notices of the Royal Astronomical Society",
+		doi: "10.1093/mnras/stab781",
+		authors: "",
+	},
+	{
+		year: "2020",
+		title: "Simulations of Magnetised Stellar-Wind Bubbles",
+		venue: "Journal of Physics: Conference Series",
+		doi: "10.1088/1742-6596/1620/1/012012",
+		authors: "",
+	},
+	{
+		year: "2019",
+		title: "Thermal emission from bow shocks I",
+		venue: "Astronomy & Astrophysics",
+		doi: "10.1051/0004-6361/201834832",
+		authors: "Green, S.; Mackey, J.; Haworth, T. J.; Gvaramadze, V. V.; Duffy, P.",
+	},
+];
+
+const preprints = [
+	{
+		year: "2025",
+		title: "Thermal emission from bow shocks III: Variable diffuse X-ray emission from stellar-wind bow shocks driven by dynamical instabilities",
+		venue: "arXiv",
+		doi: "10.48550/ARXIV.2501.06021",
+		authors: "Mackey, J.; Mathew, A.; Ali, A. A.; Haworth, T. J.; Brose, R.; Green, S.; Moutzouri, M.; Walch, S.",
+	},
+	{
+		year: "2025",
+		title: "Assessing the risk of climate change to a business",
+		venue: "EGUSphere",
+		doi: "10.5194/egusphere-egu24-2056",
+		authors: "Pitman, A.; Saribatir, E.; Greenhill, C.; Green, S.; Pitman, S.",
+	},
+	{
+		year: "2024",
+		title: "On the predictability of turbulent fluxes from land: PLUMBER2 MIP experimental description and preliminary results",
+		venue: "EGUSphere",
+		doi: "10.5194/egusphere-2023-3084",
+		authors: "Abramowitz, G.; Ukkola, A.; Hobeichi, S.; Cranko Page, J.; Lipson, M.; De Kauwe, M.; Green, S.; Brenner, C.; Frame, J.; Nearing, G. et al.",
+	},
+	{
+		year: "2022",
+		title: "PION: Simulations of Wind-Blown Nebulae",
+		venue: "arXiv",
+		doi: "10.48550/ARXIV.2203.04693",
+		authors: "",
+	},
+];
+
+const software = [
+	{
+		year: "2026",
+		title: "feilian-3d",
+		doi: "10.5281/ZENODO.18252581",
+		authors: "Green, S.; Deeptimahanti, D.; Leong, I. H.; Mann, T.; Abdurakhmanov, I.; Lu, J.; Nazarian, N.",
+	},
+	{
+		year: "2025",
+		title: "sea_breeze: v1.0",
+		doi: "10.5281/ZENODO.16938245",
+		authors: "Brown, A.; Short, E.; Green, S.; Vincent, C.",
+	},
+	{
+		year: "2025",
+		title: "zarr-dump: A tool for summarizing Zarr stores",
+		doi: "10.5281/ZENODO.16810248",
+		authors: "Green, S.",
+	},
+	{
+		year: "2025",
+		title: "Rudu v1.3.0",
+		doi: "10.5281/ZENODO.15914603",
+		authors: "Green, S.",
+	},
+	{
+		year: "2024",
+		title: "Atmosphere-Cookbook: A cookbook of recipes for analysing atmospheric model output",
+		doi: "10.5281/ZENODO.14518630",
+		authors: "Constantinou, N. C.; Nettelbeck, H.; Gibson, A.; Brown, A.; Green, S.; Chambers, C.",
+	},
+	{
+		year: "2024",
+		title: "Quantifying Traditional Indigenous Indicators",
+		doi: "10.5281/ZENODO.12702614",
+		authors: "Quail, K.; Green, S.",
+	},
+	{
+		year: "2024",
+		title: "CNN-Atmospheric-Rivers",
+		doi: "10.5281/ZENODO.12538779",
+		authors: "Mesto, M.; Hobeichi, S.; Green, S.",
+	},
+	{
+		year: "2024",
+		title: "Network Score",
+		doi: "10.5281/ZENODO.11139593",
+		authors: "Pitman, A.; Saribatir, E.; Greenhill, C.; Green, S.; Pitman, S.; Fiedler, T.",
+	},
+	{
+		year: "2023",
+		title: "NicholasGrosfeld/Cyclone_Dataset_Tools: First Notebook on Cyclone-Centered Composites",
+		doi: "10.5281/ZENODO.10369258",
+		authors: "Grosfeld, N.; Green, S.",
+	},
+	{
+		year: "2023",
+		title: "ACCESS MOPPeR: A Model Output Post-Processor for the ACCESS climate model",
+		doi: "10.5281/ZENODO.10346217",
+		authors: "Petrelli, P.; Green, S.",
+	},
+	{
+		year: "2023",
+		title: "coecms/ML-Drought-Prediction-Tutorial",
+		doi: "10.5281/ZENODO.10162626",
+		authors: "Hobeichi, S.; Green, S.",
+	},
+	{
+		year: "2023",
+		title: "coecms/Hybrid_downscaling: Hybrid Downscaling",
+		doi: "10.5281/ZENODO.7663013",
+		authors: "Hobeichi, S.; Nishant, N.; Abramowitz, G.; Pitman, A.; Sherwood, S.; Bishop, C.; Green, S.",
+	},
+	{
+		year: "2022",
+		title: "FrontDetection: A python module to detect fronts in xarray data",
+		doi: "10.5281/ZENODO.7379134",
+		authors: "King, M.; Green, S.; Heerdegen, A.; Carouge, C.; Wales, S.; Wolff, H.",
+	},
+];
+---
+
+<PageLayout meta={meta}>
+	<div class="flex items-center justify-between mb-6">
+		<h1 class="title">Publications</h1>
+		<a
+			href="https://orcid.org/0000-0003-1129-4676"
+			target="_blank"
+			rel="noreferrer"
+			aria-label="ORCID profile"
+			class="flex items-center gap-x-1.5 text-sm text-accent-base hover:underline underline-offset-2"
+		>
+			<svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+				<path d="M12 0C5.372 0 0 5.372 0 12s5.372 12 12 12 12-5.372 12-12S18.628 0 12 0zM7.369 4.378c.525 0 .947.431.947.947s-.422.947-.947.947a.95.95 0 0 1-.947-.947c0-.525.422-.947.947-.947zm-.722 3.038h1.444v10.041H6.647V7.416zm3.562 0h3.9c3.712 0 5.344 2.653 5.344 5.025 0 2.578-2.016 5.016-5.325 5.016h-3.919V7.416zm1.444 1.303v7.444h2.297c3.272 0 3.872-2.412 3.872-3.722 0-2.016-1.284-3.722-3.884-3.722h-2.285z"/>
+			</svg>
+			ORCID
+		</a>
+	</div>
+
+	<!-- Journal Articles -->
+	<section class="mb-10">
+		<h2 class="text-lg font-semibold text-accent-two mb-4">Journal Articles</h2>
+		<ol class="flex flex-col gap-y-5 not-prose list-none">
+			{
+				journalArticles.map((pub) => (
+					<li class="flex gap-x-4">
+						<span class="flex-shrink-0 text-sm text-lighter w-10 pt-0.5 text-right tabular-nums">{pub.year}</span>
+						<div>
+							<a
+								href={`https://doi.org/${pub.doi}`}
+								target="_blank"
+								rel="noreferrer"
+								class="font-medium text-textColor hover:text-accent-base underline-offset-2 hover:underline"
+							>
+								{pub.title}
+							</a>
+							<p class="text-sm text-light mt-0.5 italic">{pub.venue}</p>
+							{pub.authors && <p class="text-sm text-lighter mt-0.5">{pub.authors}</p>}
+							<p class="text-xs text-lightest mt-0.5">
+								DOI: <a href={`https://doi.org/${pub.doi}`} target="_blank" rel="noreferrer" class="hover:text-accent-base">{pub.doi}</a>
+							</p>
+						</div>
+					</li>
+				))
+			}
+		</ol>
+	</section>
+
+	<!-- Preprints -->
+	<section class="mb-10">
+		<h2 class="text-lg font-semibold text-accent-two mb-4">Preprints</h2>
+		<ol class="flex flex-col gap-y-5 not-prose list-none">
+			{
+				preprints.map((pub) => (
+					<li class="flex gap-x-4">
+						<span class="flex-shrink-0 text-sm text-lighter w-10 pt-0.5 text-right tabular-nums">{pub.year}</span>
+						<div>
+							<a
+								href={`https://doi.org/${pub.doi}`}
+								target="_blank"
+								rel="noreferrer"
+								class="font-medium text-textColor hover:text-accent-base underline-offset-2 hover:underline"
+							>
+								{pub.title}
+							</a>
+							<p class="text-sm text-light mt-0.5 italic">{pub.venue}</p>
+							{pub.authors && <p class="text-sm text-lighter mt-0.5">{pub.authors}</p>}
+							<p class="text-xs text-lightest mt-0.5">
+								DOI: <a href={`https://doi.org/${pub.doi}`} target="_blank" rel="noreferrer" class="hover:text-accent-base">{pub.doi}</a>
+							</p>
+						</div>
+					</li>
+				))
+			}
+		</ol>
+	</section>
+
+	<!-- Software -->
+	<section>
+		<h2 class="text-lg font-semibold text-accent-two mb-4">Software</h2>
+		<ol class="flex flex-col gap-y-5 not-prose list-none">
+			{
+				software.map((pub) => (
+					<li class="flex gap-x-4">
+						<span class="flex-shrink-0 text-sm text-lighter w-10 pt-0.5 text-right tabular-nums">{pub.year}</span>
+						<div>
+							<a
+								href={`https://doi.org/${pub.doi}`}
+								target="_blank"
+								rel="noreferrer"
+								class="font-medium text-textColor hover:text-accent-base underline-offset-2 hover:underline"
+							>
+								{pub.title}
+							</a>
+							<p class="text-sm text-light mt-0.5 italic">Zenodo</p>
+							{pub.authors && <p class="text-sm text-lighter mt-0.5">{pub.authors}</p>}
+							<p class="text-xs text-lightest mt-0.5">
+								DOI: <a href={`https://doi.org/${pub.doi}`} target="_blank" rel="noreferrer" class="hover:text-accent-base">{pub.doi}</a>
+							</p>
+						</div>
+					</li>
+				))
+			}
+		</ol>
+	</section>
+</PageLayout>
