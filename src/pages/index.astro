@@ -1,23 +1,15 @@
 ---
-import { type CollectionEntry, getCollection } from "astro:content";
+import { type CollectionEntry } from "astro:content";
 import SocialList from "@/components/SocialList.astro";
 import PostPreview from "@/components/blog/PostPreview.astro";
-import Note from "@/components/note/Note.astro";
 import { getAllPosts } from "@/data/post";
 import PageLayout from "@/layouts/Base.astro";
 import { collectionDateSort } from "@/utils/date";
 
-// Posts
-const MAX_POSTS = 10;
+// Posts — show all, newest first
 const allPosts = await getAllPosts();
-const allPostsByDate = allPosts
-	.sort(collectionDateSort)
-	.slice(0, MAX_POSTS) as CollectionEntry<"post">[];
+const allPostsByDate = allPosts.sort(collectionDateSort) as CollectionEntry<"post">[];
 
-// Notes
-const MAX_NOTES = 2;
-const allNotes = await getCollection("note");
-const latestNotes = allNotes.sort(collectionDateSort).slice(0, MAX_NOTES);
 ---
 
 <PageLayout meta={{ title: "Home" }}>
@@ -29,56 +21,46 @@ const latestNotes = allNotes.sort(collectionDateSort).slice(0, MAX_NOTES);
 		<div class="absolute top-[-20%] left-[-50%] w-[85%] h-full bg-gradient-to-b from-indigo-300 via-orange-300 to-transparent rounded-full opacity-60 dark:opacity-10"></div>
 		<div class="absolute top-[-20%] right-[-50%] w-[85%] h-full bg-gradient-to-b from-orange-300 via-indigo-300 to-transparent rounded-full opacity-60 dark:opacity-10"></div>
 	</div>
-	<section class="max-w-3xl mx-auto relative flex items-center justify-center min-h-screen -mt-24 px-4">
+	<section class="max-w-3xl mx-auto relative px-4 pt-16 pb-12">
 		<div class="w-full">
-			<h1 class="title text-4xl sm:text-5xl mb-6 bg-gradient-to-r from-accent-two/85 via-accent-one/85 to-accent-two/85 dark:from-accent-two dark:via-accent-one dark:to-accent-two bg-clip-text text-transparent">
-				Hi, I'm Green
-			</h1>
+			<div class="flex items-center gap-x-4 mb-6">
+				<h1 class="title text-4xl sm:text-5xl bg-gradient-to-r from-accent-two/85 via-accent-one/85 to-accent-two/85 dark:from-accent-two dark:via-accent-one dark:to-accent-two bg-clip-text text-transparent">
+					Hi, I'm Sam
+				</h1>
+				<SocialList />
+			</div>
 			<div class="space-y-4 text-lg leading-relaxed mb-8">
 				<p>
-					I'm a developer passionate about building elegant solutions to complex problems. 
-					This is my corner of the internet where I share my work, thoughts, and experiments.
+					I'm a software engineer working at the intersection of climate science and open-source tooling.
+					Most of my work involves building software that helps researchers process, analyse, and understand
+					large scientific datasets.
 				</p>
 				<p>
-					I work with Python, data science tools, and modern web technologies. 
-					When I'm not coding, you'll find me exploring new technologies or contributing to open source.
+					Outside of that I enjoy tinkering with hardware — things like LED matrix displays,
+					MicroPython microcontrollers, and small embedded projects that scratch a curiosity itch.
 				</p>
 			</div>
-			
+
 			<div class="mb-8">
-				<h2 class="text-xl font-semibold mb-4 text-accent-two">What I Do</h2>
+				<h2 class="text-xl font-semibold mb-4 text-accent-two">What I Work On</h2>
 				<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
 					<div class="p-4 rounded-lg bg-color-100 dark:bg-color-800">
-						<h3 class="font-semibold mb-2">Development</h3>
-						<p class="text-sm">Building tools and applications with Python, JavaScript, and modern frameworks</p>
+						<h3 class="font-semibold mb-2">Scientific Software</h3>
+						<p class="text-sm">Open-source tools for climate and atmospheric research — data pipelines, model post-processing, and HPC workflows</p>
 					</div>
 					<div class="p-4 rounded-lg bg-color-100 dark:bg-color-800">
-						<h3 class="font-semibold mb-2">Data & APIs</h3>
-						<p class="text-sm">Working with data pipelines, APIs, and scientific computing tools</p>
+						<h3 class="font-semibold mb-2">Hardware & Embedded</h3>
+						<p class="text-sm">MicroPython projects, LED matrix visualisations, and small devices that do something interesting</p>
 					</div>
 				</div>
 			</div>
 
-			<div class="flex flex-wrap gap-4 mb-6">
-				<a href="/posts/" class="flex items-center justify-center h-10 px-6 rounded-lg shadow-lg hover:brightness-110 transition-all bg-gradient-to-r from-accent-one to-accent-two">
-					<span class="text-bgColor font-semibold">Read Blog</span>
-				</a>
-				<a href="/about/" class="flex items-center justify-center h-10 px-6 rounded-lg shadow-lg border-2 border-accent-one hover:bg-accent-one/10 transition-all">
-					<span class="font-semibold">About Me</span>
-				</a>
-			</div>
-
-			<div class="flex justify-start">
-				<SocialList />
-			</div>
 		</div>
 	</section>
 
 	<!-- Posts Section -->
-	<section aria-label="Blog post list" class="mt-[-100vh] pt-[100vh] max-w-3xl mx-auto px-4">
-		<h2 class="title mb-6 text-2xl text-accent-two">
-			<a href="/posts/">Recent Posts</a>
-		</h2>
+	<section aria-label="Blog post list" class="max-w-3xl mx-auto px-4 pb-16">
+		<h2 class="title mb-6 text-2xl text-accent-two">Recent Posts</h2>
 		<ul class="space-y-4 md:space-y-2" role="list">
 			{
 				allPostsByDate.map((p) => (
@@ -90,58 +72,4 @@ const latestNotes = allNotes.sort(collectionDateSort).slice(0, MAX_NOTES);
 		</ul>
 	</section>
 
-	<!-- Notes Section -->
-	{
-		latestNotes.length > 0 && (
-			<section class="mt-12 max-w-3xl mx-auto px-4">
-				<h2 class="title mb-6 text-2xl text-accent-two">
-					<a href="/notes/">Recent Publications</a>
-				</h2>
-				<div class="grid grid-cols-1 gap-8 sm:grid-cols-2">
-					{
-						latestNotes.map((note) => (
-							<div>
-								<Note note={note} as="h4" isPreview />
-							</div>
-						))
-					}
-				</div>
-			</section>
-		)
-	}
-
-	<!-- Debug -->
-	<!--
-	<div class="flex justify-between flex-wrap gap-y-1.5 mt-6 text-sm font-medium">
-		<div class="text-center content-center h-10 w-10 bg-color-50"><span class="text-textColor">50</span></div>
-		<div class="text-center content-center h-10 w-10 bg-color-75"><span class="text-textColor">75</span></div>
-		<div class="text-center content-center h-10 w-10 bg-color-100"><span class="text-textColor">100</span></div>
-		<div class="text-center content-center h-10 w-10 bg-color-150"><span class="text-textColor">150</span></div>
-		<div class="text-center content-center h-10 w-10 bg-color-200"><span class="text-textColor">200</span></div>
-		<div class="text-center content-center h-10 w-10 bg-color-250"><span class="text-textColor">250</span></div>
-		<div class="text-center content-center h-10 w-10 bg-color-300"><span class="text-textColor">300</span></div>
-		<div class="text-center content-center h-10 w-10 bg-color-350"><span class="text-textColor">350</span></div>
-		<div class="text-center content-center h-10 w-10 bg-color-400">
-			<span class="text-textColor">400</span>
-			<span class="text-bgColor">400</span>
-		</div>
-		<div class="text-center content-center h-10 w-10 bg-color-450">
-			<span class="text-textColor">450</span>
-			<span class="text-bgColor">450</span>
-		</div>
-		<div class="text-center content-center h-10 w-10 bg-color-500">
-			<span class="text-textColor">500</span>
-			<span class="text-bgColor">500</span>
-		</div>
-		<div class="text-center content-center h-10 w-10 bg-color-550"><span class="text-bgColor">550</span></div>
-		<div class="text-center content-center h-10 w-10 bg-color-600"><span class="text-bgColor">600</span></div>
-		<div class="text-center content-center h-10 w-10 bg-color-650"><span class="text-bgColor">650</span></div>
-		<div class="text-center content-center h-10 w-10 bg-color-700"><span class="text-bgColor">700</span></div>
-		<div class="text-center content-center h-10 w-10 bg-color-750"><span class="text-bgColor">750</span></div>
-		<div class="text-center content-center h-10 w-10 bg-color-800"><span class="text-bgColor">800</span></div>
-		<div class="text-center content-center h-10 w-10 bg-color-850"><span class="text-bgColor">850</span></div>
-		<div class="text-center content-center h-10 w-10 bg-color-900"><span class="text-bgColor">900</span></div>
-	</div>
-	-->
 </PageLayout>
-
