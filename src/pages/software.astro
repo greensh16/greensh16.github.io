@@ -2,49 +2,98 @@
 import PageLayout from "@/layouts/Base.astro";
 
 const meta = {
-	description: "Software projects built by Green — hardware integrations, generative models, data tools, and more.",
+	description: "Software projects built by Sam Green — scientific tools, research software, hardware projects, and more.",
 	title: "Software",
 };
 
-const projects = [
+type Project = {
+	name: string;
+	description: string;
+	url: string;
+	tags: string[];
+	internal?: boolean;
+};
+
+const openScienceProjects: Project[] = [
+	{
+		name: "zarr-dump",
+		description: "A command-line tool for summarising the structure and contents of Zarr stores, useful for quickly inspecting large chunked array datasets.",
+		url: "https://doi.org/10.5281/ZENODO.16810248",
+		tags: ["Python", "Zarr", "CLI"],
+	},
+	{
+		name: "Dask Cluster Setup",
+		description: "A reproducible configuration and setup guide for running distributed Dask workloads, including worker scaling, scheduler configuration, and environment bootstrapping.",
+		url: "/docs/dask-setup",
+		tags: ["Python", "Dask", "Distributed Computing"],
+		internal: true,
+	},
+];
+
+const researchProjects: Project[] = [
 	{
 		name: "Feilian-3D",
-		description:
-			"A 3-D generative model framework built for reproducible training runs on HPC clusters. Includes a custom data pipeline, configurable loss functions, Slurm integration, and full API documentation.",
+		description: "A 3-D generative model framework built for reproducible training runs on HPC clusters. Includes a custom data pipeline, configurable loss functions, Slurm integration, and full API documentation.",
 		url: "/docs/",
 		tags: ["Python", "Deep Learning", "Slurm", "HPC"],
 		internal: true,
 	},
 	{
+		name: "sea_breeze",
+		description: "A Python library for detecting and analysing sea breeze events in atmospheric model output and observational data.",
+		url: "https://doi.org/10.5281/ZENODO.16938245",
+		tags: ["Python", "Meteorology", "Climate"],
+	},
+	{
+		name: "FrontDetection",
+		description: "A Python module for detecting weather fronts in xarray datasets, designed for use with gridded atmospheric model output.",
+		url: "https://doi.org/10.5281/ZENODO.7379134",
+		tags: ["Python", "xarray", "Meteorology"],
+	},
+	{
+		name: "Atmosphere-Cookbook",
+		description: "A cookbook of recipes for analysing atmospheric model output, covering common workflows for climate and weather data processing.",
+		url: "https://doi.org/10.5281/ZENODO.14518630",
+		tags: ["Python", "Climate", "Tutorial"],
+	},
+	{
+		name: "CNN-Atmospheric-Rivers",
+		description: "A convolutional neural network for detecting atmospheric rivers in climate model output.",
+		url: "https://doi.org/10.5281/ZENODO.12538779",
+		tags: ["Python", "Deep Learning", "Climate"],
+	},
+];
+
+const gamesAndApps: Project[] = [];
+
+const hardwareProjects: Project[] = [
+	{
 		name: "ClimTime",
-		description:
-			"A MicroPython weather visualiser for an LED matrix. Maps temperature to colour, wind speed to waveform height, and precipitation to animated effects — all driven by live sensor data.",
+		description: "A MicroPython weather visualiser for an LED matrix. Maps temperature to colour, wind speed to waveform height, and precipitation to animated effects — all driven by live sensor data.",
 		url: "/posts/climtime/",
 		tags: ["MicroPython", "LED Matrix", "IoT"],
 		internal: true,
 	},
 	{
 		name: "Galactic Moon",
-		description:
-			"A moon-position tracker that computes azimuth and altitude entirely on-device — no external API. Displays the moon's current sky position on an LED matrix using local astronomical math.",
+		description: "A moon-position tracker that computes azimuth and altitude entirely on-device — no external API. Displays the moon's current sky position on an LED matrix using local astronomical math.",
 		url: "/posts/galactic-moon/",
 		tags: ["MicroPython", "Astronomy", "LED Matrix"],
 		internal: true,
 	},
-	{
-		name: "Dask Cluster Setup",
-		description:
-			"A reproducible configuration and setup guide for running distributed Dask workloads, including worker scaling, scheduler configuration, and environment bootstrapping.",
-		url: "/docs/dask-setup",
-		tags: ["Python", "Dask", "Distributed Computing"],
-		internal: true,
-	},
+];
+
+const categories = [
+	{ title: "Open-Source Science Software", projects: openScienceProjects },
+	{ title: "Research Software", projects: researchProjects },
+	{ title: "Games & Apps", projects: gamesAndApps },
+	{ title: "Hardware & Embedded", projects: hardwareProjects },
 ];
 ---
 
 <PageLayout meta={meta}>
 	<h1 class="title mb-6">Software</h1>
-	<p class="prose max-w-none text-textColor mb-8">
+	<p class="prose max-w-none text-textColor mb-10">
 		A collection of projects I've built or maintain. Source code for most of these lives on
 		<a
 			aria-label="GitHub profile"
@@ -55,29 +104,36 @@ const projects = [
 		>GitHub</a>.
 	</p>
 
-	<ul class="flex flex-col gap-y-6 not-prose">
-		{
-			projects.map((project) => (
-				<li class="rounded-xl border border-special-light bg-special-light/30 p-5 transition-colors hover:border-accent-base/30">
-					<div class="flex items-start justify-between gap-x-4">
-						<a
-							href={project.url}
-							class="text-lg font-semibold text-accent-base hover:underline underline-offset-2"
-							{...(project.internal ? { "data-astro-prefetch": true } : { rel: "noreferrer", target: "_blank" })}
-						>
-							{project.name}
-						</a>
-					</div>
-					<p class="mt-2 text-sm text-textColor">{project.description}</p>
-					<div class="mt-3 flex flex-wrap gap-2">
-						{project.tags.map((tag) => (
-							<span class="rounded-md bg-accent-base/10 px-2 py-0.5 text-xs font-medium text-accent-base">
-								{tag}
-							</span>
+	<div class="flex flex-col gap-y-12">
+		{categories.map(({ title, projects }) => (
+			<section>
+				<h2 class="text-lg font-semibold text-accent-two mb-4">{title}</h2>
+				{projects.length > 0 ? (
+					<ul class="flex flex-col gap-y-4 not-prose">
+						{projects.map((project) => (
+							<li class="rounded-xl border border-special-light bg-special-light/30 p-5 transition-colors hover:border-accent-base/30">
+								<a
+									href={project.url}
+									class="text-base font-semibold text-accent-base hover:underline underline-offset-2"
+									{...(project.internal ? { "data-astro-prefetch": true } : { rel: "noreferrer", target: "_blank" })}
+								>
+									{project.name}
+								</a>
+								<p class="mt-2 text-sm text-textColor">{project.description}</p>
+								<div class="mt-3 flex flex-wrap gap-2">
+									{project.tags.map((tag) => (
+										<span class="rounded-md bg-accent-base/10 px-2 py-0.5 text-xs font-medium text-accent-base">
+											{tag}
+										</span>
+									))}
+								</div>
+							</li>
 						))}
-					</div>
-				</li>
-			))
-		}
-	</ul>
+					</ul>
+				) : (
+					<p class="text-sm text-lighter italic">Nothing here yet.</p>
+				)}
+			</section>
+		))}
+	</div>
 </PageLayout>
