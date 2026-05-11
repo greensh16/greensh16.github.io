@@ -40,6 +40,40 @@ html.mgw a:hover {
 	text-decoration: underline;
 }
 
+.mgw-floral-bg {
+	position: fixed;
+	inset: 0;
+	pointer-events: none;
+	overflow: hidden;
+	z-index: 0;
+}
+
+.mgw-floral-blobs {
+	position: absolute;
+	inset: 0;
+	filter: blur(60px);
+}
+
+.mgw-blob {
+	position: absolute;
+	border-radius: 50%;
+}
+
+.mgw-blob--blue    { width: 55%; height: 75%; top: -30%; left: 5%;    background: #bae6fd; opacity: 0.5; }
+.mgw-blob--purple  { width: 55%; height: 75%; top: -30%; right: 5%;   background: #e9d5ff; opacity: 0.5; }
+.mgw-blob--yellow  { width: 44%; height: 50%; top: 10%;  left: 28%;   background: #fef08a; opacity: 0.38; }
+.mgw-blob--violet  { width: 48%; height: 65%; top: 50%;  left: -15%;  background: #ddd6fe; opacity: 0.35; }
+.mgw-blob--blue2   { width: 48%; height: 65%; top: 50%;  right: -15%; background: #bae6fd; opacity: 0.32; }
+.mgw-blob--amber   { width: 56%; height: 45%; top: 72%;  left: 22%;   background: #fef3c7; opacity: 0.38; }
+
+.mgw-floral-svg {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	opacity: 0.1;
+}
+
 .mgw-body {
 	display: grid;
 	grid-template-rows: 1fr auto;
@@ -47,6 +81,8 @@ html.mgw a:hover {
 }
 
 .mgw-shell {
+	position: relative;
+	z-index: 1;
 	width: min(1100px, calc(100% - 2rem));
 	margin: 1.25rem auto 2.5rem;
 	display: grid;
@@ -214,9 +250,9 @@ html.mgw a:hover {
 	border: 1px solid var(--mgw-border);
 	background: rgba(255, 255, 255, 0.6);
 	color: rgba(42, 31, 27, 0.85);
-	font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
-	font-weight: 700;
-	font-size: 0.95rem;
+	font-family: var(--mgw-heading);
+	font-weight: 400;
+	font-size: 1.1rem;
 }
 
 .mgw-nav-link:hover {
@@ -362,6 +398,8 @@ html.mgw a:hover {
 }
 
 .mgw-footer {
+	position: relative;
+	z-index: 1;
 	padding: 0 1.25rem 1.5rem;
 	text-align: center;
 }
@@ -370,4 +408,93 @@ html.mgw a:hover {
 	margin: 0;
 	color: var(--mgw-muted);
 	font-size: 0.95rem;
+}
+
+/* ── RSVP form ─────────────────────────────────────────── */
+
+.mgw-rsvp-form {
+	margin-top: 1.25rem;
+	display: grid;
+	gap: 1.1rem;
+	max-width: 480px;
+}
+
+.mgw-field {
+	display: grid;
+	gap: 0.4rem;
+}
+
+.mgw-label {
+	font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+	font-weight: 600;
+	font-size: 0.875rem;
+	color: rgba(42, 31, 27, 0.85);
+}
+
+.mgw-optional {
+	font-weight: 400;
+	color: var(--mgw-muted);
+}
+
+.mgw-input,
+.mgw-textarea {
+	padding: 0.6rem 0.8rem;
+	border: 1px solid var(--mgw-border);
+	border-radius: 10px;
+	background: rgba(255, 255, 255, 0.7);
+	font-family: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+	font-size: 1rem;
+	color: var(--mgw-text);
+	width: 100%;
+	box-sizing: border-box;
+	transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+
+.mgw-input:focus,
+.mgw-textarea:focus {
+	outline: none;
+	border-color: var(--mgw-accent-2);
+	box-shadow: 0 0 0 3px rgba(31, 111, 120, 0.12);
+}
+
+.mgw-textarea {
+	resize: vertical;
+}
+
+.mgw-radio-group {
+	display: flex;
+	flex-direction: column;
+	gap: 0.55rem;
+	margin-top: 0.1rem;
+}
+
+.mgw-radio-label {
+	display: flex;
+	align-items: center;
+	gap: 0.55rem;
+	font-size: 1rem;
+	color: var(--mgw-text);
+	cursor: pointer;
+}
+
+.mgw-rsvp-submit {
+	justify-self: start;
+	margin-top: 0.25rem;
+	cursor: pointer;
+}
+
+.mgw-rsvp-submit:disabled {
+	opacity: 0.6;
+	cursor: not-allowed;
+}
+
+.mgw-rsvp-success {
+	margin-top: 1.5rem;
+}
+
+.mgw-rsvp-thanks {
+	font-family: var(--mgw-heading);
+	font-size: 1.5rem;
+	color: var(--mgw-accent-2);
+	margin: 0 0 0.5rem;
 }
