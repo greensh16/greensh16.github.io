@@ -1,0 +1,220 @@
+---
+title: "AI assistant environmental footprint"
+description: "Per-query energy, carbon, and water footprint of Claude, ChatGPT, Copilot, Gemini, and Grok — with everyday comparisons and reasoning-model amplification."
+publishDate: "2026-05-19"
+tags: ["ai", "environment", "energy", "carbon", "data-visualisation"]
+---
+
+import AIChart from '@/components/blog/AIChart.astro';
+
+How much energy does it actually take to send a message to an AI assistant? And how does that compare to boiling a kettle, driving a kilometre, or eating a beef burger?
+
+This post collects the best available numbers on energy, carbon, and water across Claude, ChatGPT, Copilot, Gemini, and Grok — per query, at the individual scale, and globally. It also looks at what happens to those numbers when reasoning models enter the picture.
+
+**Key takeaways up front:**
+- For an individual, AI use is a rounding error compared to transport, diet, and heating
+- At global scale it's a real and growing electricity load, on track to double or triple by 2030
+- The dominant uncertainty isn't model efficiency — it's whether reasoning and agentic workloads stay niche or become default
+
+---
+
+## Per-query comparisons
+
+### Energy per query (Wh)
+
+~100 input → 300 output tokens. Gemini's figure is from Google's own disclosure; the rest are external estimates from academic benchmarking (Jegham et al. 2025, Epoch AI).
+
+<AIChart
+  id="energyChart"
+  legend={[
+    { color: "#185FA5", label: "Provider self-reported" },
+    { color: "#888780", label: "External estimate" }
+  ]}
+/>
+
+Gemini's 0.24 Wh looks dramatically better than Claude's 0.84 Wh, but the comparison hides three things: Google's figure uses their own fully-loaded methodology, Anthropic publishes nothing so Claude is an external estimate, and the 3.5× gap is still under one watt-hour. **None of these models is energy-expensive per query — the question is what you scale them to.**
+
+### CO₂e per query (grams)
+
+Gemini uses Google's renewable-PPA grid factor; others use the global-average 430 g CO₂/kWh (IEA 2025). The bars are not strictly comparable on the same grid — Claude and ChatGPT on Google's mix would drop 5–10×.
+
+<AIChart id="co2Chart" />
+
+The CO₂e ranking is mostly the energy ranking multiplied by grid factor — Gemini wins partly on efficient inference and partly on Google's renewable PPAs. **If Anthropic and OpenAI ran on the same renewable mix Google reports, their per-query CO₂e would drop 5–10× with no model change.** This is a deployment story more than a model story.
+
+### Water per query (mL)
+
+Self-reported figures (Google, OpenAI) cover only on-site evaporative cooling (scope-1). Including off-site power-generation water (scope-2) raises totals roughly 3–10×. Claude and Grok are scaled from energy ratios using Microsoft Azure WUE.
+
+<AIChart
+  id="waterChart"
+  legend={[
+    { color: "#185FA5", label: "Provider self-reported (scope-1)" },
+    { color: "#888780", label: "External / scaled estimate" }
+  ]}
+/>
+
+Most "AI water" headlines come from this metric, and 0.3–0.8 mL per query is genuinely small — a few drops at most. The catch: these are scope-1 figures only. **Including off-site power-generation water raises every bar by roughly an order of magnitude** (see the scope-2 section below).
+
+---
+
+## The individual's footprint
+
+### Annual footprint at 10 queries per day (kg CO₂e)
+
+For context: one passenger seat on a one-way Sydney → Melbourne flight is roughly 90 kg CO₂e. A year of heavy AI use is comfortably under 2% of that.
+
+<AIChart id="annualChart" />
+
+A heavy individual user's annual AI footprint is comfortably under 2% of a single Sydney → Melbourne flight's emissions. **For an individual, AI use is a rounding error against transport, diet, and heating.**
+
+### Everyday energy comparison (Wh, log scale)
+
+A single chat query sits between a Google search and a minute of YouTube. Boiling a kettle is two orders of magnitude more energy than your entire day of AI use.
+
+<AIChart id="everydayEnergyChart" tall />
+
+A chat query sits between a Google search and a YouTube minute in raw energy. Boiling a kettle is two orders of magnitude more energy than your entire day of AI use; an EV mile is three. **If you care about your individual energy footprint, AI is among the lowest-leverage things to optimise.**
+
+### Everyday water comparison (mL, log scale)
+
+Per-query water is a millilitre or less. A single beef burger requires roughly 3 million Claude queries' worth of water to produce.
+
+<AIChart id="everydayWaterChart" tall />
+
+The cup of coffee in your hand required roughly 175,000 Claude queries' worth of water to produce. A beef burger is around 3 million Claude queries. **Agricultural water footprint of one meal swamps a year of heavy AI use by three orders of magnitude.**
+
+### Everyday carbon comparison (g CO₂e, log scale)
+
+A Claude query emits roughly the same CO₂e as 2 metres of driving a petrol car. A single beef burger ≈ 8,000 Claude queries.
+
+<AIChart id="everydayCarbonChart" tall />
+
+A Claude query emits about as much CO₂e as driving a petrol car 2 metres. A Sydney → Melbourne flight ≈ 250,000 Claude queries per passenger. **Transport and diet dominate individual emissions; AI is in the noise** — and the comparison holds across all the major chat models.
+
+---
+
+## The reasoning amplifier
+
+### Reasoning models dwarf the standard-chat gap (Wh per query, log scale)
+
+Chain-of-thought tokens multiply inference cost. The 3× gap between Gemini and Claude is rounding error compared to switching on a reasoning model.
+
+<AIChart id="reasoningChart" tall />
+
+This is the chart that matters most going forward. The 3× gap between Gemini and Claude on standard chat is rounding error compared to switching on a reasoning model: o3 and DeepSeek-R1 consume 50–100× more per query. **As reasoning becomes the default mode — GPT-5 routing, Claude extended thinking, Gemini Deep Think — per-query averages will rise faster than user counts.**
+
+---
+
+## At global scale
+
+Across the five major commercial chat services, the aggregate numbers are already significant:
+
+| Metric | Value | Context |
+|---|---|---|
+| Daily energy (5 services) | 1.76 GWh | ≈ 60,000 AU homes / day |
+| Annual energy | 643 GWh | ≈ Hobart's annual use |
+| Daily water (scope-1) | 1.7 m³ | ~8 AU households |
+| Annual water (scope-1) | 620 m³ | ~1/4 Olympic pool |
+
+### Daily energy by service (MWh / day)
+
+Grok ranks second on energy despite only ~6% of ChatGPT's user base — a consequence of its 2.5 Wh/query rate versus 0.34 Wh for GPT-4o.
+
+<AIChart id="dailyEnergyChart" />
+
+ChatGPT's daily energy is roughly equal to a small Australian city's electricity use. **Efficiency × scale is what matters; neither dimension alone tells the right story.**
+
+### Daily water by service (L / day, scope-1)
+
+On-site cooling only. Scope-2 (off-site power generation) multiplies these 3–10×.
+
+<AIChart id="dailyWaterChart" />
+
+Total scope-1 water across all five services is ~1.7 m³/day — about 8 Australian households' daily usage. The scope-2 picture below tells a much larger story.
+
+### Daily queries served (millions)
+
+Volume rank doesn't match energy rank — a small inefficient service can outweigh a larger efficient one.
+
+<AIChart id="dailyQueriesChart" />
+
+ChatGPT serves 10× the queries of Claude, but their daily energy ratio is only 4:1 because Claude's per-query energy is higher. **Volume × efficiency × user growth jointly determine the footprint trajectory** — three separate dimensions, not one.
+
+---
+
+## Trajectory and the bigger picture
+
+### Annual energy trajectory — historical and projected (GWh / yr)
+
+Three scenarios for 2027–2030. Conservative assumes efficiency improvements outpace user growth; steady assumes ~30% user growth offset by ~15% efficiency gains; reasoning revolution assumes broad migration to agentic and reasoning workloads.
+
+<AIChart
+  id="trajectoryChart"
+  tall
+  legend={[
+    { color: "#5f5e5a", label: "Historical" },
+    { color: "#1D9E75", label: "Conservative" },
+    { color: "#D85A30", label: "Steady growth" },
+    { color: "#A32D2D", label: "Reasoning revolution" }
+  ]}
+/>
+
+The conservative scenario assumes Gemini-style efficiency gains keep outpacing user growth. The steady scenario tracks the IEA's projection that total data-centre electricity roughly doubles by 2030. **The reasoning-revolution scenario reaches 7 TWh/year by 2030 — comparable to Tasmania's annual residential electricity demand.** Which of these we get depends almost entirely on whether agentic and reasoning workloads stay niche or become default.
+
+### The full global AI inference picture (MWh / day)
+
+The five chat services above are only ~47% of global AI chat-inference energy. Adding Gemini-powered AI Overviews in Google Search (2 B monthly users), Meta AI (1 B MAU), DeepSeek, Perplexity, and direct API/enterprise traffic roughly doubles the total.
+
+<AIChart
+  id="globalPictureChart"
+  tall
+  legend={[
+    { color: "#D85A30", label: "Not in earlier 5-service charts" },
+    { color: "#5f5e5a", label: "Already counted" }
+  ]}
+/>
+
+**The largest hidden line is Gemini-powered AI Overviews inside Google Search** — most users don't think of themselves as "AI users" when they Google, but Gemini is running on roughly half of all search results. API and enterprise traffic built on OpenAI/Anthropic/Google APIs is the next largest hidden category.
+
+### Daily water including scope-2 (m³ / day)
+
+Including off-site power-generation water using Lawrence Berkeley Lab's 7.6 L/kWh grid-water intensity factor.
+
+<AIChart
+  id="scope2WaterChart"
+  legend={[
+    { color: "#0C447C", label: "Scope-1 (on-site cooling)" },
+    { color: "#85B7EB", label: "Scope-2 (off-site power)" }
+  ]}
+/>
+
+Including off-site power-generation water flips the story. Daily water across the five services jumps from ~1.7 m³ (scope-1) to ~13 m³ (scope-2). **Reporting just scope-1, as most providers do, understates true water footprint by an order of magnitude.**
+
+---
+
+## Bottom line
+
+### For an individual
+
+Don't optimise here first. The energy of a year's worth of heavy AI use is dwarfed by a single short flight, a beef-heavy weekly diet, or running a tumble dryer instead of line-drying. If you want to reduce your digital carbon footprint, AI is among the smallest levers available — choose a Gemini-style efficient model over Grok if you can, but don't lose sleep over the choice.
+
+### For an organisation
+
+Track aggregate AI usage if you're running large deployments, but optimise transport, heating, and grid procurement first — that's where the real numbers live. For research and HPC environments, the case for self-hosting comes down to data sovereignty, fine-tuning, and predictable cost, not energy savings; the per-query footprint of a well-tuned on-prem deployment is comparable to commercial cloud.
+
+### For a policymaker or analyst
+
+Focus on grid decarbonisation, mandatory disclosure (scope-2 water, real PUE, real WUE), and watching the reasoning-model transition. The IEA projection of 945 TWh global data-centre electricity by 2030 is the right frame — what fraction of that is AI inference is the question that matters.
+
+### What's genuinely uncertain
+
+Anthropic publishes nothing about Claude's per-query footprint; OpenAI publishes only on-site water; Google publishes the most but on its own renewable-PPA accounting. External research (Jegham et al. 2025; Epoch AI) gives defensible estimates, but ±30–40% per-query variance is real. Daily query volumes for Gemini, Claude, Copilot, and Grok are external estimates from market-share data; ±50% uncertainty applies. Anything past 2026 in the trajectory chart is a scenario, not a forecast.
+
+### What this isn't
+
+This compares *inference* — the energy and water of running a query against an already-trained model. Training is excluded entirely. Training GPT-3 reportedly required ~1,287 MWh and ~700,000 L of water, but amortised across the model's lifetime of queries it's typically a small fraction of total footprint. Inference now dominates roughly 80–90% of an AI model's lifetime impact.
+
+---
+
+**Sources:** Google Cloud Blog (2025) — Gemini self-reported energy, water, CO₂e. OpenAI (Altman, June 2025) — ChatGPT water per query; OpenAI to Axios (July 2025) — ChatGPT 2.5 B prompts/day. Jegham, Abdelatti, Koh, Elmoubarki & Hendawi (2025), *How Hungry is AI? Benchmarking Energy, Water, and Carbon Footprint of LLM Inference*, arXiv:2505.09598. Epoch AI (2025) — GPT-4o energy range. IEA (2025) — global grid carbon intensity, data-centre electricity projections. Lawrence Berkeley National Lab — 7.6 L/kWh grid-water intensity for scope-2.

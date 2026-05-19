@@ -1,0 +1,286 @@
+---
+interface Props {
+	/** Canvas element id — must match one of the known chart IDs. */
+	id: string;
+	/** Use a taller container (360px vs 300px default). */
+	tall?: boolean;
+	/** Optional colour-swatch legend shown above the chart. */
+	legend?: Array<{ color: string; label: string }>;
+}
+const { id, tall = false, legend } = Astro.props;
+---
+
+<style>
+	.ai-chart-wrap {
+		position: relative;
+		width: 100%;
+		height: 300px;
+		margin: 1rem 0;
+	}
+	.ai-chart-wrap.tall { height: 360px; }
+	.ai-legend {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 12px;
+		font-size: 0.75rem;
+		margin: 0.5rem 0 4px;
+		color: var(--tw-prose-body, #555);
+	}
+	.ai-legend-dot {
+		display: inline-flex;
+		align-items: center;
+		gap: 5px;
+	}
+	.ai-legend-dot::before {
+		content: "";
+		width: 10px;
+		height: 10px;
+		border-radius: 2px;
+		background: var(--dot-color);
+		flex-shrink: 0;
+	}
+</style>
+
+{legend && legend.length > 0 && (
+	<div class="ai-legend">
+		{legend.map(({ color, label }) => (
+			<span class="ai-legend-dot" style={`--dot-color:${color}`}>{label}</span>
+		))}
+	</div>
+)}
+
+<div class={`ai-chart-wrap${tall ? ' tall' : ''}`}>
+	<canvas id={id}></canvas>
+</div>
+
+<!--
+  This script is identical across every AIChart instance — Astro deduplicates it,
+  so initCharts() runs exactly once after DOMContentLoaded regardless of how many
+  AIChart components appear on the page.
+-->
+<script>
+// Chart is loaded from CDN at runtime — declare it so TypeScript is happy
+declare var Chart: any;
+(function () {
+	if ((window as any).__aiChartsBooted) return;
+	(window as any).__aiChartsBooted = true;
+
+	function boot() {
+		const s = document.createElement('script');
+		s.src = 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js';
+		s.onload = initCharts;
+		document.head.appendChild(s);
+	}
+
+	function initCharts() {
+		const isDark = window.matchMedia?.('(prefers-color-scheme: dark)').matches ?? false;
+		window.matchMedia?.('(prefers-color-scheme: dark)').addEventListener('change', () => location.reload());
+
+		const C = {
+			reported: '#185FA5',
+			estimate:  '#888780',
+			accent:    '#D85A30',
+			danger:    '#A32D2D',
+			neutral:   isDark ? '#a8a7a0' : '#5f5e5a',
+			grid:      isDark ? 'rgba(220,220,210,0.12)' : 'rgba(60,60,55,0.10)',
+			faint:     '#888780',
+		};
+
+		(Chart as any).defaults.color = C.faint;
+		(Chart as any).defaults.borderColor = C.grid;
+		(Chart as any).defaults.font.family = '-apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif';
+		(Chart as any).defaults.font.size = 12;
+
+		const base = {
+			responsive: true,
+			maintainAspectRatio: false,
+			plugins: { legend: { display: false }, tooltip: { intersect: false } },
+			scales: {
+				x: { grid: { display: false }, ticks: { color: C.faint, autoSkip: false, maxRotation: 30 } },
+				y: { grid: { color: C.grid }, ticks: { color: C.faint }, beginAtZero: true },
+			},
+		};
+
+		const logT  = (v: number) => [0.001,0.01,0.1,1,10,100,1000,10000,100000,1_000_000,10_000_000].includes(v) ? v : null;
+		const logTL = (v: number) => [1,10,100,1000,10000,100000,1_000_000,10_000_000].includes(v) ? v : null;
+
+		function mk(id: string, cfg: object) {
+			const el = document.getElementById(id) as HTMLCanvasElement | null;
+			if (el) new (Chart as any)(el, cfg);
+		}
+
+		// ── 1. Energy per query ───────────────────────────────────────
+		mk('energyChart', {
+			type: 'bar',
+			data: { labels: ['Gemini','GPT-4o','Copilot','Claude 3.7','Grok'],
+				datasets: [{ label: 'Wh / query', data: [0.24,0.34,0.34,0.84,2.5],
+					backgroundColor: [C.reported,C.estimate,C.estimate,C.estimate,C.estimate], borderRadius: 4 }] },
+			options: { ...base, scales: { ...base.scales, y: { ...base.scales.y, title: { display: true, text: 'Wh', color: C.faint } } } },
+		});
+
+		// ── 2. CO₂e per query ─────────────────────────────────────────
+		mk('co2Chart', {
+			type: 'bar',
+			data: { labels: ['Gemini','GPT-4o','Copilot','Claude 3.7','Grok'],
+				datasets: [{ label: 'g CO₂e / query', data: [0.03,0.15,0.15,0.36,1.07],
+					backgroundColor: [C.reported,C.estimate,C.estimate,C.estimate,C.estimate], borderRadius: 4 }] },
+			options: { ...base, scales: { ...base.scales, y: { ...base.scales.y, title: { display: true, text: 'g CO₂e', color: C.faint } } } },
+		});
+
+		// ── 3. Water per query ────────────────────────────────────────
+		mk('waterChart', {
+			type: 'bar',
+			data: { labels: ['Gemini','GPT-4o','Copilot','Claude 3.7','Grok'],
+				datasets: [{ label: 'mL / query', data: [0.26,0.32,0.32,0.79,2.35],
+					backgroundColor: [C.reported,C.reported,C.estimate,C.estimate,C.estimate], borderRadius: 4 }] },
+			options: { ...base, scales: { ...base.scales, y: { ...base.scales.y, title: { display: true, text: 'mL', color: C.faint } } } },
+		});
+
+		// ── 4. Annual footprint ───────────────────────────────────────
+		mk('annualChart', {
+			type: 'bar',
+			data: { labels: ['Gemini','GPT-4o','Copilot','Claude 3.7','Grok'],
+				datasets: [{ label: 'kg CO₂e / year', data: [0.11,0.55,0.55,1.31,3.91],
+					backgroundColor: C.accent, borderRadius: 4 }] },
+			options: { ...base, scales: { ...base.scales, y: { ...base.scales.y, title: { display: true, text: 'kg CO₂e / year', color: C.faint } } } },
+		});
+
+		// ── 5. Everyday energy ────────────────────────────────────────
+		mk('everydayEnergyChart', {
+			type: 'bar',
+			data: { labels: ['Google search','Gemini query','ChatGPT query','Claude query','1 min YouTube','1 hr LED bulb','Phone charge','Kettle (1L)','EV per mile'],
+				datasets: [{ label: 'Wh', data: [0.30,0.24,0.34,0.84,1.5,10,10,100,250],
+					backgroundColor: (ctx: any) => [1,2,3].includes(ctx.dataIndex) ? C.accent : C.neutral, borderRadius: 4 }] },
+			options: { ...base, scales: {
+				x: { grid:{display:false}, ticks:{color:C.faint,autoSkip:false,maxRotation:45,minRotation:30,font:{size:11}} },
+				y: { type:'logarithmic', grid:{color:C.grid}, ticks:{color:C.faint,callback:logT}, title:{display:true,text:'Wh (log)',color:C.faint} },
+			} },
+		});
+
+		// ── 6. Everyday water ─────────────────────────────────────────
+		mk('everydayWaterChart', {
+			type: 'bar',
+			data: { labels: ['Google search','Gemini query','ChatGPT query','Claude query','Glass of water','Toilet flush','1 min shower','Cup of coffee','Beef burger','Cotton shirt'],
+				datasets: [{ label: 'mL', data: [0.20,0.26,0.32,0.79,250,6000,9500,140000,2400000,2700000],
+					backgroundColor: (ctx: any) => [1,2,3].includes(ctx.dataIndex) ? C.accent : C.neutral, borderRadius: 4 }] },
+			options: { ...base, scales: {
+				x: { grid:{display:false}, ticks:{color:C.faint,autoSkip:false,maxRotation:45,minRotation:30,font:{size:11}} },
+				y: { type:'logarithmic', grid:{color:C.grid}, ticks:{color:C.faint,callback:logTL}, title:{display:true,text:'mL (log)',color:C.faint} },
+			} },
+		});
+
+		// ── 7. Everyday carbon ────────────────────────────────────────
+		mk('everydayCarbonChart', {
+			type: 'bar',
+			data: { labels: ['Gemini query','Google search','ChatGPT query','Claude query','Email + attach.','Cup of coffee','1 km petrol','Beef burger','SYD→MEL flight'],
+				datasets: [{ label: 'g CO₂e', data: [0.03,0.20,0.15,0.36,50,21,170,3000,90000],
+					backgroundColor: (ctx: any) => [0,2,3].includes(ctx.dataIndex) ? C.accent : C.neutral, borderRadius: 4 }] },
+			options: { ...base, scales: {
+				x: { grid:{display:false}, ticks:{color:C.faint,autoSkip:false,maxRotation:45,minRotation:30,font:{size:11}} },
+				y: { type:'logarithmic', grid:{color:C.grid}, ticks:{color:C.faint,callback:logT}, title:{display:true,text:'g CO₂e (log)',color:C.faint} },
+			} },
+		});
+
+		// ── 8. Reasoning amplification ────────────────────────────────
+		mk('reasoningChart', {
+			type: 'bar',
+			data: { labels: ['LLaMA 3.2 1B','Gemini','GPT-4o','Claude 3.7','Grok','DeepSeek-R1','o3'],
+				datasets: [{ label: 'Wh / query', data: [0.07,0.24,0.34,0.84,2.5,23.8,33],
+					backgroundColor: (ctx: any) => ctx.dataIndex >= 5 ? C.danger : C.neutral, borderRadius: 4 }] },
+			options: { ...base, scales: {
+				x: { grid:{display:false}, ticks:{color:C.faint,autoSkip:false,maxRotation:30} },
+				y: { type:'logarithmic', grid:{color:C.grid}, ticks:{color:C.faint,callback:logT}, title:{display:true,text:'Wh (log)',color:C.faint} },
+			} },
+		});
+
+		const teal     = '#1D9E75';
+		const blueDark = '#0C447C';
+
+		// ── 9. Daily energy ───────────────────────────────────────────
+		mk('dailyEnergyChart', {
+			type: 'bar',
+			data: { labels: ['ChatGPT','Grok','Claude','Gemini','Copilot'],
+				datasets: [{ label: 'MWh / day', data: [850,375,210,192,136], backgroundColor: C.accent, borderRadius: 4 }] },
+			options: { ...base, scales: { ...base.scales, y: { ...base.scales.y, title:{display:true,text:'MWh / day',color:C.faint} } } },
+		});
+
+		// ── 10. Daily water ───────────────────────────────────────────
+		mk('dailyWaterChart', {
+			type: 'bar',
+			data: { labels: ['ChatGPT','Grok','Gemini','Claude','Copilot'],
+				datasets: [{ label: 'L / day', data: [800,353,208,198,128], backgroundColor: blueDark, borderRadius: 4 }] },
+			options: { ...base, scales: { ...base.scales, y: { ...base.scales.y, title:{display:true,text:'L / day',color:C.faint} } } },
+		});
+
+		// ── 11. Daily queries ─────────────────────────────────────────
+		mk('dailyQueriesChart', {
+			type: 'bar',
+			data: { labels: ['ChatGPT','Gemini','Copilot','Claude','Grok'],
+				datasets: [{ label: 'M queries / day', data: [2500,800,400,250,150], backgroundColor: teal, borderRadius: 4 }] },
+			options: { ...base, scales: { ...base.scales, y: { ...base.scales.y, title:{display:true,text:'M queries / day',color:C.faint} } } },
+		});
+
+		// ── 12. Trajectory ────────────────────────────────────────────
+		mk('trajectoryChart', {
+			type: 'line',
+			data: {
+				labels: ['2023','2024','2025','2026','2027','2028','2029','2030'],
+				datasets: [
+					{ label:'Historical',          data:[65,280,600,700,null,null,null,null],  borderColor:C.neutral, backgroundColor:C.neutral, borderWidth:2.5, pointRadius:4, tension:0.15, spanGaps:false },
+					{ label:'Conservative',         data:[null,null,null,700,750,800,850,900],  borderColor:teal,     backgroundColor:teal,     borderWidth:2, borderDash:[6,4], pointRadius:3, tension:0.2 },
+					{ label:'Steady growth',        data:[null,null,null,700,950,1300,1700,2200],borderColor:C.accent, backgroundColor:C.accent, borderWidth:2, borderDash:[6,4], pointRadius:3, tension:0.2 },
+					{ label:'Reasoning revolution', data:[null,null,null,700,1500,2700,4500,7000],borderColor:C.danger, backgroundColor:C.danger, borderWidth:2, borderDash:[6,4], pointRadius:3, tension:0.2 },
+				],
+			},
+			options: {
+				responsive:true, maintainAspectRatio:false,
+				plugins: { legend:{display:false}, tooltip:{intersect:false,mode:'index'} },
+				scales: {
+					x: { grid:{display:false}, ticks:{color:C.faint} },
+					y: { type:'logarithmic', grid:{color:C.grid}, ticks:{color:C.faint, callback:(v: number)=>[50,100,500,1000,5000,10000].includes(v)?v.toLocaleString():null}, title:{display:true,text:'GWh / year (log)',color:C.faint} },
+				},
+			},
+		});
+
+		// ── 13. Global picture ────────────────────────────────────────
+		mk('globalPictureChart', {
+			type: 'bar',
+			data: { labels: ['ChatGPT','AI Overviews (Search)','API / enterprise','Grok','Meta AI','Claude','Gemini app','Copilot','DeepSeek','Perplexity + other'],
+				datasets: [{ label:'MWh / day', data:[850,1000,800,375,300,210,192,136,100,50],
+					backgroundColor:(ctx: any)=>[1,2,4,8,9].includes(ctx.dataIndex)?C.accent:C.neutral, borderRadius:4 }] },
+			options: {
+				indexAxis:'y', responsive:true, maintainAspectRatio:false,
+				plugins:{legend:{display:false},tooltip:{intersect:false}},
+				scales: {
+					y: { grid:{display:false}, ticks:{color:C.faint,font:{size:12}} },
+					x: { grid:{color:C.grid}, ticks:{color:C.faint,callback:(v: number)=>v.toLocaleString()}, title:{display:true,text:'MWh / day',color:C.faint}, beginAtZero:true },
+				},
+			},
+		});
+
+		// ── 14. Scope-2 water ─────────────────────────────────────────
+		mk('scope2WaterChart', {
+			type: 'bar',
+			data: { labels: ['ChatGPT','Grok','Claude','Gemini','Copilot'],
+				datasets: [
+					{ label:'Scope-1 (on-site cooling)', data:[0.80,0.35,0.20,0.21,0.13], backgroundColor:blueDark, borderRadius:4 },
+					{ label:'Scope-2 (off-site power)',  data:[6.46,2.85,1.60,1.46,1.03], backgroundColor:'#85B7EB', borderRadius:4 },
+				] },
+			options: {
+				responsive:true, maintainAspectRatio:false,
+				plugins:{legend:{display:false},tooltip:{intersect:false,mode:'index'}},
+				scales: {
+					x: { stacked:true, grid:{display:false}, ticks:{color:C.faint} },
+					y: { stacked:true, grid:{color:C.grid}, ticks:{color:C.faint}, title:{display:true,text:'m³ / day',color:C.faint}, beginAtZero:true },
+				},
+			},
+		});
+	}
+
+	if (document.readyState === 'loading') {
+		document.addEventListener('DOMContentLoaded', boot);
+	} else {
+		boot();
+	}
+})();
+</script>
